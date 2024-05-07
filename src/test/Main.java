@@ -1,5 +1,6 @@
 package test;
-
+// Eliyahu Gubman 213662364 eligubman@gmail.com
+// Azriel Erlich 213662539 azrielye669@gmail.com
 import static java.lang.System.out;
 
 import static primitives.Util.isZero;
@@ -10,7 +11,8 @@ import primitives.*;
  * Test program for the 1st stage
  * @author Dan Zilberstein
  */
-public final class Main {
+public final
+class Main {
 
     /**
      * Main program to tests initial functionality of the 1st stage
