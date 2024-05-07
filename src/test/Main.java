@@ -1,6 +1,6 @@
 package test;
 // Eliyahu Gubman 213662364 eligubman@gmail.com
-// Azriel Erlich 213662539 azrielye669@gmail.com
+// Azriel Ehrlich 213662539 azrielye669@gmail.com
 import static java.lang.System.out;
 
 import static primitives.Util.isZero;
