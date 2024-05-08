@@ -5,8 +5,8 @@ import java.util.Objects;
  * Ray class represents a ray in 3D Cartesian coordinate system
  */
 public class Ray {
-    private final Point head;
-    private final Vector direction;
+    public final Point head;
+    public Vector direction;
 
     /**
      * constructor for Ray class
