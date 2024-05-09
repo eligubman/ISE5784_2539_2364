@@ -19,6 +19,7 @@ public class Plane implements Geometry {
      * @param p3 third point on the plane
      */
     public Plane(Point p1, Point p2, Point p3) {
+        //the normal calculation is done by the cross product of two vectors on the plane
         this.normal = ((p2.subtract(p1)).crossProduct(p3.subtract(p1))).normalize();
         this.q = p1;
     }
