@@ -23,6 +23,18 @@ class PlaneTest {
         );
         assertEquals(new Vector(1, 1, 1).normalize(), p.getNormal(new Point(0, 0, 0)),
                 "Wrong plane normal");
+        // =============== Boundary Values Tests ==================
+        // TC02: Test constructor with the same point
+        assertThrows(IllegalArgumentException.class, () -> new Plane(new Point(1, 0, 0),
+                new Point(1, 0, 0),
+                new Point(1, 0, 0)
+        ), "Constructed a plane with the same point");
+
+        // TC03: Test constructor with the 2 same points
+        assertThrows(IllegalArgumentException.class, () -> new Plane(new Point(1, 0, 0),
+                new Point(1, 0, 0),
+                new Point(0, 0, 1)
+        ), "Constructed a plane with the same point");
     }
 
     /**
