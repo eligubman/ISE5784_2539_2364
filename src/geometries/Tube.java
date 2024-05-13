@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * Tube class represents a tube in 3D Cartesian coordinate system
  */
@@ -48,5 +50,9 @@ public class Tube extends RadialGeometry {
             o = p0.add(v.scale(t));
         }
         return p.subtract(o).normalize();
+    }
+
+    public List<Point> findIntsersections(Ray ray){
+        return null;
     }
 }

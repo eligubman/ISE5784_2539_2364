@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.List;
+
 /**
  * Cylinder class represents a cylinder in 3D Cartesian coordinate
  * system
@@ -57,5 +59,10 @@ public class Cylinder extends Tube {
         // if the point is on the side of the cylinder
         return super.getNormal(p);
 
+    }
+
+    @Override
+    public List<Point> findIntsersections(Ray ray){
+        return null;
     }
 }

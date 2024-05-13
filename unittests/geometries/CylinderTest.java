@@ -51,4 +51,8 @@ class CylinderTest {
         assertEquals(new Vector(0, 0, 1), normalCenterTopBase,
                 "TC07: Wrong normal to the center of the top base");
     }
+
+    void testFindIntsersections(){
+
+    }
   }

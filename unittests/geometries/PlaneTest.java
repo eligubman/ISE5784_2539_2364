@@ -53,6 +53,9 @@ class PlaneTest {
                 "Wrong plane normal");
 
     }
+    void testFindIntsersections(){
+
+    }
 
 
 }

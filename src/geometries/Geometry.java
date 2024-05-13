@@ -6,7 +6,7 @@ import primitives.Vector;
 /**
  * Interface Geometry is the basic interface for all geometric objects
  */
-public interface Geometry {
+public interface Geometry extends Intersectable{
     /**
      * getNormal function returns the normal to the geometry at the point
      * @param p  the point on the geometry surface for which the normal is required

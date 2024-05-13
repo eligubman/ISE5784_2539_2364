@@ -27,4 +27,8 @@ class TubeTest {
                     "Wrong normal to a point on the tube"
             );
     }
+
+    void testFindIntsersections(){
+
+    }
 }

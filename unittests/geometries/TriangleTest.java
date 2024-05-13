@@ -38,4 +38,8 @@ class TriangleTest {
         );
     }
 
+    void testFindIntsersections(){
+
+    }
+
 }

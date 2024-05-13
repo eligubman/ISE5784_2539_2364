@@ -1,7 +1,10 @@
 package geometries;
 
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 /**
  * Class Plane is the basic class representing a plane in 3D Cartesian coordinate
@@ -33,6 +36,10 @@ public class Plane implements Geometry {
     public Plane(Point p, Vector normal) {
         this.normal = normal.normalize();
         this.q = p;
+    }
+
+    public List<Point> findIntsersections(Ray ray){
+        return null;
     }
 
     /**
