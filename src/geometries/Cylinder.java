@@ -32,14 +32,23 @@ public class Cylinder extends Tube {
         // the normal is the vector from the point to the axis
         Point p0 = axis.head;
         Vector v = axis.direction;
+        // if the point is the head of the axis
+        if(p.equals(p0)){
+            return v.scale(-1);
+        }
         Vector delta = p.subtract(p0);
         double t = v.dotProduct(delta);
         Point o;
+
         // if t=0, the point is on the axis
         if (t == 0) {
             o = p0;
         } else {
             o = p0.add(v.scale(t));
+        }
+        // if the point is on the bottom or top of the cylinder
+        if(p.equals(o)){
+            return p.subtract(p0).normalize();
         }
         // if the point is on the bottom or top of the cylinder
         if (p.subtract(o).length() == radius) {

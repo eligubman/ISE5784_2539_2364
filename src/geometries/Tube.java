@@ -31,10 +31,15 @@ public class Tube extends RadialGeometry {
         //now let's find o
         Point p0 = axis.head;
         Vector v = axis.direction;
+        // if the point is the head of the axis
+        if (p.equals(p0)) {
+            return v.scale(-1);
+        }
         Vector delta = p.subtract(p0);
         double t = v.dotProduct(delta);
         Point o;
-        // if t=0, the point o is on the head of the axis
+
+        // if delta is orthogonal to the axis
         if (t == 0) {
             o = p0;
         }
