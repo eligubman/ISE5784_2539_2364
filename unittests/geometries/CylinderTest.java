@@ -4,8 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 import primitives.*;
+/**
+ * Testing Cylinder
+ */
 class CylinderTest {
-
+    /**
+     * Test method for {@link geometries.Cylinder#getNormal(primitives.Point)}.
+     */
     @Test
     void testGetNormal() {
         Cylinder c = new Cylinder(1, new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)), 2);
@@ -51,7 +56,9 @@ class CylinderTest {
         assertEquals(new Vector(0, 0, 1), normalCenterTopBase,
                 "TC07: Wrong normal to the center of the top base");
     }
-
+    /**
+     * Test method for {@link geometries.Cylinder#findIntsersections(primitives.Ray)}.
+     */
     void testFindIntsersections(){
 
     }
