@@ -43,18 +43,18 @@ public class Cylinder extends Tube {
         Point o;
 
         // if t=0, the point is on the axis
-        if (t == 0) {
-            o = p0;
+        if (t <= 0) {
+            return v.scale(-1);
         } else {
             o = p0.add(v.scale(t));
         }
-        // if the point is on the bottom or top of the cylinder
+
         if(p.equals(o)){
             return p.subtract(p0).normalize();
         }
         // if the point is on the bottom or top of the cylinder
-        if (p.subtract(o).length() == radius) {
-            return p.subtract(o).normalize();
+        if ((t-height)==0) {
+            return v;
         }
         // if the point is on the side of the cylinder
         return super.getNormal(p);

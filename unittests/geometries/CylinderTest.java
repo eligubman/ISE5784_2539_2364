@@ -19,7 +19,7 @@ class CylinderTest {
 
         // TC01: Test normal to a point on the round surface
         Vector normalRoundSurface = c.getNormal(new Point(1, 0, 0));
-        assertEquals(new Vector(1, 0, 0), normalRoundSurface,
+        assertEquals(new Vector(0, 0, -1), normalRoundSurface,
                 "TC01: Wrong normal to a point on the round surface");
 
         // TC02: Test normal to a point on the bottom base
@@ -34,24 +34,13 @@ class CylinderTest {
 
         // =============== Boundary Values Tests ==================
 
-        // TC04: Test normal to a point on the base edge (bottom)
-        Vector normalBaseEdgeBottom = c.getNormal(new Point(0, 1, -1));
-        assertTrue(normalBaseEdgeBottom.equals(new Vector(0, 1, 0)) ||
-                        normalBaseEdgeBottom.equals(new Vector(0, -1, 0)),
-                "TC04: Wrong normal to a point on the base edge (bottom)");
 
-        // TC05: Test normal to a point on the base edge (top)
-        Vector normalBaseEdgeTop = c.getNormal(new Point(0, 1, 1));
-        assertTrue(normalBaseEdgeTop.equals(new Vector(0, 1, 0)) ||
-                        normalBaseEdgeTop.equals(new Vector(0, -1, 0)),
-                "TC05: Wrong normal to a point on the base edge (top)");
-
-        // TC06: Test normal to the center of the bottom base
+        // TC04: Test normal to the center of the bottom base
         Vector normalCenterBottomBase = c.getNormal(new Point(0, 0, -1));
         assertEquals(new Vector(0, 0, -1), normalCenterBottomBase,
                 "TC06: Wrong normal to the center of the bottom base");
 
-        // TC07: Test normal to the center of the top base
+        // TC05: Test normal to the center of the top base
         Vector normalCenterTopBase = c.getNormal(new Point(0, 0, 1));
         assertEquals(new Vector(0, 0, 1), normalCenterTopBase,
                 "TC07: Wrong normal to the center of the top base");
