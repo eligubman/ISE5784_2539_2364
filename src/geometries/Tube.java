@@ -31,8 +31,8 @@ public class Tube extends RadialGeometry {
         // the formula to calculate the normal of a point on the tube is:
         // p-o where o is the point on the axis that is closest to p
         //now let's find o
-        Point p0 = axis.head;
-        Vector v = axis.direction;
+        Point p0 = axis.getHead();
+        Vector v = axis.getDirection();
         // if the point is the head of the axis
         if (p.equals(p0)) {
             return v.scale(-1);

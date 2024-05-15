@@ -30,13 +30,13 @@ public class Sphere extends RadialGeometry {
 
     public List<Point> findIntsersections(Ray ray) {
         // if the ray starts at the center of the sphere
-        if (ray.head.equals(center)) {
-            return List.of(ray.head.add(ray.direction.scale(radius)));
+        if (ray.getHead().equals(center)) {
+            return List.of(ray.getHead().add(ray.getDirection().scale(radius)));
         }
         //check if there is intsersection between them
-        Vector v = center.subtract(ray.head);
+        Vector v = center.subtract(ray.getHead());
 
-        double tm = alignZero(ray.direction.dotProduct(v));
+        double tm = alignZero(ray.getDirection().dotProduct(v));
         // if the sphere is behind the ray there is no intserection
         if (tm < 0 || isZero(tm)) return null;
         //check if the ray is tangent to the sphere
@@ -46,13 +46,13 @@ public class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
         if (t1 > 0 && t2 > 0) {
-            return List.of(ray.head.add(ray.direction.scale(t1)), ray.head.add(ray.direction.scale(t2)));
+            return List.of(ray.getHead().add(ray.getDirection().scale(t1)), ray.getHead().add(ray.getDirection().scale(t2)));
         }
         if (t1 > 0) {
-            return List.of(ray.head.add(ray.direction.scale(t1)));
+            return List.of(ray.getHead().add(ray.getDirection().scale(t1)));
         }
         if (t2 > 0) {
-            return List.of(ray.head.add(ray.direction.scale(t2)));
+            return List.of(ray.getHead().add(ray.getDirection().scale(t2)));
         }
         return null;
 

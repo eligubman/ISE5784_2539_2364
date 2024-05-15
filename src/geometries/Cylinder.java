@@ -32,8 +32,8 @@ public class Cylinder extends Tube {
         // the normal is the vector from the point to the center of the cylinder
         // if the point is on the side of the cylinder,
         // the normal is the vector from the point to the axis
-        Point p0 = axis.head;
-        Vector v = axis.direction;
+        Point p0 = axis.getHead();
+        Vector v = axis.getDirection();
         // if the point is the head of the axis
         if(p.equals(p0)){
             return v.scale(-1);
