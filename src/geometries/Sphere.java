@@ -37,8 +37,7 @@ public class Sphere extends RadialGeometry {
         Vector v = center.subtract(ray.getHead());
 
         double tm = alignZero(ray.getDirection().dotProduct(v));
-        // if the sphere is behind the ray there is no intserection
-        if (tm < 0 || isZero(tm)) return null;
+
         //check if the ray is tangent to the sphere
         double d = alignZero(Math.sqrt(v.lengthSquared() - tm * tm));
         if (d >= radius) return null;
