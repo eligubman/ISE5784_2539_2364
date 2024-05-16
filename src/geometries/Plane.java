@@ -6,6 +6,8 @@ import primitives.Vector;
 
 import java.util.List;
 
+import static primitives.Util.alignZero;
+
 /**
  * Class Plane is the basic class representing a plane in 3D Cartesian coordinate
  * system
@@ -39,6 +41,13 @@ public class Plane implements Geometry {
     }
 
     public List<Point> findIntsersections(Ray ray){
+        if(ray.getHead().equals(q)){
+            return null;
+        }
+        double t = alignZero( normal.dotProduct(q.subtract(ray.getHead()))/normal.dotProduct(ray.getDirection()));
+        if(t>0){
+            return List.of(ray.getHead().add(ray.getDirection().scale(t)));
+        }
         return null;
     }
 
