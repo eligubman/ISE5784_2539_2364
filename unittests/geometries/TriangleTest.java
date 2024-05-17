@@ -2,7 +2,10 @@ package geometries;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,7 +41,40 @@ class TriangleTest {
         );
     }
 
+    /**
+     * Test method for {@link geometries.Triangle#findIntsersections(primitives.Ray)}.
+     */
+    @Test
     void testFindIntsersections(){
+        Triangle triangle = new Triangle(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 1));
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Ray intersects the triangle (1 point)
+        assertEquals(List.of(new Point(1d/3, 1d/3, 1d/3)),
+                triangle.findIntsersections(new Ray(new Point(0, 0, 0), new Vector(1, 1, 1))),
+                "Ray intersects the triangle"
+        );
+        // TC02: outside against edge
+        assertNull(triangle.findIntsersections(new Ray(new Point(0, 0, 0), new Vector(-1, -1, -1))),
+                "Ray outside against edge"
+        );
+        // TC03: outside against vertex
+        assertNull(triangle.findIntsersections(new Ray(new Point(0, 0, 0), new Vector(-1, -1, 0))),
+                "Ray outside against vertex"
+        );
+        // =============== Boundary Values Tests ==================
+        // TC04: Ray intersects the triangle on edge
+        assertNull(triangle.findIntsersections(new Ray(new Point(0.5, 0.5, -1), new Vector(0, 0, 1))),
+                "Ray intersects the triangle on edge"
+        );
+        // TC05: Ray intersects the triangle on vertex
+        assertNull(triangle.findIntsersections(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0))),
+                "Ray intersects the triangle on vertex"
+        );
+        // TC06: Ray intersects the triangle on edge's continuation
+        assertNull(triangle.findIntsersections(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0))),
+                "Ray intersects the triangle on edge's continuation"
+        );
+
 
     }
 
