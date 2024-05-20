@@ -4,7 +4,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -25,8 +24,8 @@ public class Triangle extends Polygon {
     }
 
     @Override
-    public List<Point> findIntsersections(Ray ray) {
-        List<Point> intersections = plane.findIntsersections(ray);
+    public List<Point> findIntersections(Ray ray) {
+        List<Point> intersections = plane.findIntersections(ray);
         //if there are no intersections with the plane, there are no intersections with the triangle
         if (intersections == null) {
             return null;

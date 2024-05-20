@@ -52,7 +52,7 @@ public class Tube extends RadialGeometry {
         return p.subtract(o).normalize();
     }
 
-    public List<Point> findIntsersections(Ray ray){
+    public List<Point> findIntersections(Ray ray){
         return null;
     }
 }

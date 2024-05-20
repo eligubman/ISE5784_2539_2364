@@ -46,9 +46,10 @@ class CylinderTest {
                 "TC07: Wrong normal to the center of the top base");
     }
     /**
-     * Test method for {@link geometries.Cylinder#findIntsersections(primitives.Ray)}.
+     * Test method for {@link geometries.Cylinder#findIntersections(primitives.Ray)}.
      */
-    void testFindIntsersections(){
+    @Test
+    void testFindIntersections(){
 
     }
   }

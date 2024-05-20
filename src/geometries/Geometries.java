@@ -6,9 +6,11 @@ import primitives.Ray;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
+/**
+ * Geometries class represents a collection of geometries in 3D Cartesian coordinate system
+ */
 public class Geometries implements Intersectable{
-    private final List<Intersectable> Geomet= new LinkedList<>();
+    private final List<Intersectable> Geometry = new LinkedList<>();
 
     Geometries(){}
 
@@ -17,23 +19,21 @@ public class Geometries implements Intersectable{
     }
 
     public void add(Intersectable... geometries){
-        Geomet.addAll(List.of(geometries));
-        //for (Intersectable geometry : geometries) {
-            //Geomet.add(geometry);
-        //}
+        Geometry.addAll(List.of(geometries));
+
     }
 
-    public List<Point> findIntsersections(Ray ray){
-        List<Point> Intsersections = null;
-        for (Intersectable geometry : Geomet) {
-             List<Point>  i = (geometry.findIntsersections(ray));
+    public List<Point> findIntersections(Ray ray){
+        List<Point> Intersection = null;
+        for (Intersectable geometry : Geometry) {
+             List<Point>  i = (geometry.findIntersections(ray));
              if(i!=null){
-                 if (Intsersections==null){
-                     Intsersections= new ArrayList<>();
+                 if (Intersection==null){
+                     Intersection= new ArrayList<>();
                  }
-                 Intsersections.addAll(i);
+                 Intersection.addAll(i);
              }
         }
-        return Intsersections;
+        return Intersection;
     }
 }

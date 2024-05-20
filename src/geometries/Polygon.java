@@ -80,8 +80,8 @@ public class Polygon  implements  /*extends*/ Geometry {
             throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
       }
    }
-   public List<Point> findIntsersections(Ray ray){
-      List<Point> intersections=plane.findIntsersections(ray);
+   public List<Point> findIntersections(Ray ray){
+      List<Point> intersections=plane.findIntersections(ray);
       //if there are no intersections with the plane, there are no intersections with the polygon
         if(intersections==null){
              return null;

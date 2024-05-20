@@ -55,52 +55,60 @@ class PlaneTest {
                 "Wrong plane normal");
 
     }
-    void testFindIntsersections(){
+
+    /**
+     * Test method for {@link geometries.Plane#findIntersections(primitives.Ray)}.
+     */
+    @Test
+    void testFindIntersections(){
         Plane p =new Plane(new Point(1, 1, 1),new Vector(1,1,1));
         List<Point> result;
+        // ============ Equivalence Partitions Tests ==============
 
-        //start not in the plane and Intsersect the plane
-        result = p.findIntsersections(new Ray(new Point(0, 1, 1), new Vector(1, 0, 1)));
+        //TC01 start not in the plane and Intsersect the plane
+        result = p.findIntersections(new Ray(new Point(0, 1, 1), new Vector(1, 0, 1)));
         assertEquals(result, List.of(new Point(0.5, 1, 1.5)), "Error start not in the plane and Intsersect the plane");
 
-        //start not in the plane and not Intsersect the plane
-        result = p.findIntsersections(new Ray(new Point(0, 1, 1), new Vector(0, -1, 1)));
+        //TC02 start not in the plane and not Intsersect the plane
+        result = p.findIntersections(new Ray(new Point(0, 1, 1), new Vector(0, -1, 1)));
         assertNull(result, "start not in the plane and not Intsersect the plane");
 
-        //on the plane and not Intsersect the plane (paralel)
-        result = p.findIntsersections(new Ray(new Point(2, 1, 0), new Vector(0, -1, 1)));
+        // =============== Boundary Values Tests ==================
+
+        //TC03 on the plane and not Intsersect the plane (paralel)
+        result = p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(0, -1, 1)));
         assertNull(result, "on the plane and not Intsersect the plane (paralel)");
 
-        //not on the plane and not Intsersect the plane (paralel(up))
-        result = p.findIntsersections(new Ray(new Point(5, 1, 1), new Vector(0, -1, 1)));
+        //TC04 not on the plane and not Intsersect the plane (paralel(up))
+        result = p.findIntersections(new Ray(new Point(5, 1, 1), new Vector(0, -1, 1)));
         assertNull(result, "not on the plane and not Intsersect the plane (paralel(up))");
 
-        //not on the plane and not Intsersect the plane (paralel(down))
-        result = p.findIntsersections(new Ray(new Point(-1, 1, 1), new Vector(0, -1, 1)));
+        //TC05 not on the plane and not Intsersect the plane (paralel(down))
+        result = p.findIntersections(new Ray(new Point(-1, 1, 1), new Vector(0, -1, 1)));
         assertNull(result, "not on the plane and not Intsersect the plane (paralel(down))");
 
-        //perpendicular to the plane (before)
-        result = p.findIntsersections(new Ray(new Point(0, 0, 0), new Vector(1, 1, 1)));
+        //TC06 perpendicular to the plane (before)
+        result = p.findIntersections(new Ray(new Point(0, 0, 0), new Vector(1, 1, 1)));
         assertEquals(result, List.of(new Point(1, 1, 1)), "perpendicular to the plane (before)");
 
-        //perpendicular to the plane (on)
-        result = p.findIntsersections(new Ray(new Point(2, 1, 0), new Vector(1, 1, 1)));
+        //TC07 perpendicular to the plane (on)
+        result = p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(1, 1, 1)));
         assertNull(result, "perpendicular to the plane (on)");
 
-        //perpendicular to the plane (after)
-        result = p.findIntsersections(new Ray(new Point(2, 2, 2), new Vector(1, 1, 1)));
+        //TC08 perpendicular to the plane (after)
+        result = p.findIntersections(new Ray(new Point(2, 2, 2), new Vector(1, 1, 1)));
         assertNull(result, "perpendicular to the plane (after)");
 
-        //starts on the normal but the ray not on the plane
-        result = p.findIntsersections(new Ray(new Point(1, 1, 1), new Vector(1, 0, 0)));
+        //TC09 starts on the normal but the ray not on the plane
+        result = p.findIntersections(new Ray(new Point(1, 1, 1), new Vector(1, 0, 0)));
         assertNull(result, "starts on the normal but the ray not on the plane");
 
-        //starts on the normal and the ray on the plane
-        result = p.findIntsersections(new Ray(new Point(1, 1, 1), new Vector(0, -1, 1)));
+        //TC10 starts on the normal and the ray on the plane
+        result = p.findIntersections(new Ray(new Point(1, 1, 1), new Vector(0, -1, 1)));
         assertNull(result, "starts on the normal and the ray on the plane");
 
-        //starts on the normal and the ray not on the plane
-        result = p.findIntsersections(new Ray(new Point(2, 1, 0), new Vector(1, 0, 0)));
+        //TC11 starts on the normal and the ray not on the plane
+        result = p.findIntersections(new Ray(new Point(2, 1, 0), new Vector(1, 0, 0)));
         assertNull(result, "starts on the normal and the ray not on the plane");
     }
 }

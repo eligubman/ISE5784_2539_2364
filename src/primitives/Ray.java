@@ -9,7 +9,7 @@ import static primitives.Util.isZero;
  */
 public class Ray {
    private final Point head;
-    private Vector direction;
+    private final Vector direction;
 
     public Point getHead() {
         return head;

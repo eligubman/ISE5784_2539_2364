@@ -28,10 +28,10 @@ public class Sphere extends RadialGeometry {
         return p.subtract(center).normalize();
     }
 
-    public List<Point> findIntsersections(Ray ray) {
+    public List<Point> findIntersections(Ray ray) {
         // if the ray starts at the center of the sphere
         if (ray.getHead().equals(center)) {
-            return List.of(ray.getHead().add(ray.getDirection().scale(radius)));
+            return List.of(ray.getPoint(radius));
         }
         //check if there is intsersection between them
         Vector v = center.subtract(ray.getHead());
@@ -45,13 +45,13 @@ public class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
         if (t1 > 0 && t2 > 0) {
-            return List.of(ray.getHead().add(ray.getDirection().scale(t1)), ray.getHead().add(ray.getDirection().scale(t2)));
+            return List.of(ray.getPoint(t1), ray.getPoint(t2));
         }
         if (t1 > 0) {
-            return List.of(ray.getHead().add(ray.getDirection().scale(t1)));
+            return List.of(ray.getPoint(t1));
         }
         if (t2 > 0) {
-            return List.of(ray.getHead().add(ray.getDirection().scale(t2)));
+            return List.of(ray.getPoint(t2));
         }
         return null;
 
