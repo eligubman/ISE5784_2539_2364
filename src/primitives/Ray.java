@@ -1,6 +1,9 @@
 package primitives;
 
 import java.util.Objects;
+
+import static primitives.Util.isZero;
+
 /**
  * Ray class represents a ray in 3D Cartesian coordinate system
  */
@@ -40,4 +43,17 @@ public class Ray {
         result = 31 * result + Objects.hashCode(direction);
         return result;
     }
+
+    /**
+     *
+     * @param t
+     * @return the new point
+     */
+    public Point getPoint(double t){
+        if(isZero(t)){
+            return head;
+        }
+        return head.add(direction.scale(t));
+    }
+
 }
