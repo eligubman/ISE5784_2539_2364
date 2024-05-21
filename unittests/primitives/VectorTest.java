@@ -51,6 +51,9 @@ class VectorTest {
                 "Adding a vector to the opposite vector should throw an exception"
         );
     }
+    /**
+     * Test method for {@link primitives.Vector#subtract}.
+     */
     @Test
     void testSubtract() {
         // ============ Equivalence Partitions Tests ==============
