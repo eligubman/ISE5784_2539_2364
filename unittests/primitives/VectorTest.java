@@ -51,6 +51,25 @@ class VectorTest {
                 "Adding a vector to the opposite vector should throw an exception"
         );
     }
+    /**
+     * Test method for {@link primitives.Vector#subtract}.
+     */
+    @Test
+    void testSubtract() {
+        // ============ Equivalence Partitions Tests ==============
+        // TC01: Subtract a vector from the vector
+        Vector v1 = new Vector(1, 2, 3);
+        Vector v2 = new Vector(2, 3, 4);
+        assertEquals(new Vector(-1, -1, -1), v1.subtract(v2),
+                "Wrong result of subtracting a vector from the vector"
+        );
+        // =============== Boundary Values Tests ==================
+        // TC02: Subtract the vector from itself
+        assertThrows(IllegalArgumentException.class,
+                () -> v1.subtract(v1),
+                "Subtracting the vector from itself should throw an exception"
+        );
+    }
 
     /**
      * Test method for {@link primitives.Vector#scale}.
@@ -58,13 +77,18 @@ class VectorTest {
     @Test
     void testScale() {
         // ============ Equivalence Partitions Tests ==============
-        // TC01: Scale the vector by a factor
+        // TC01: Scale the vector by a positive factor
         Vector v1 = new Vector(1, 2, 3);
         assertEquals(new Vector(2, 4, 6), v1.scale(2),
                 "Wrong result of scaling the vector"
+
+        );
+        // TC02: Scale the vector by a negative factor
+        assertEquals(new Vector(-2, -4, -6), v1.scale(-2),
+                "Wrong result of scaling the vector"
         );
         // =============== Boundary Values Tests ==================
-        // TC02: Scale the vector by 0
+        // TC03: Scale the vector by 0
         assertThrows(IllegalArgumentException.class,
                 () -> v1.scale(0),
                 "Scaling the vector by 0 should throw an exception"

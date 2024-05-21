@@ -36,12 +36,12 @@ class CylinderTest {
 
 
         // TC04: Test normal to the center of the bottom base
-        Vector normalCenterBottomBase = c.getNormal(new Point(0, 0, -1));
+        Vector normalCenterBottomBase = c.getNormal(new Point(0, 0, 0));
         assertEquals(new Vector(0, 0, -1), normalCenterBottomBase,
                 "TC06: Wrong normal to the center of the bottom base");
 
         // TC05: Test normal to the center of the top base
-        Vector normalCenterTopBase = c.getNormal(new Point(0, 0, 1));
+        Vector normalCenterTopBase = c.getNormal(new Point(0, 0, 2));
         assertEquals(new Vector(0, 0, 1), normalCenterTopBase,
                 "TC07: Wrong normal to the center of the top base");
     }
