@@ -1,4 +1,4 @@
-package unittests.renderer;
+package renderer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import primitives.*;
 import renderer.*;
-import Scene.Scene;
+//import Scene.Scene;
 
 import javax.imageio.ImageWriter;
 
@@ -17,8 +17,8 @@ import javax.imageio.ImageWriter;
 class CameraTest {
     /** Camera builder for the tests */
     private final Camera.Builder cameraBuilder = Camera.getBuilder()
-            .setRayTracer(new SimpleRayTracer(new Scene("Test")))
-            .setImageWriter(new ImageWriter("Test", 1, 1))
+            //.setRayTracer(new SimpleRayTracer(new Scene("Test")))
+            //.setImageWriter(new ImageWriter("Test", 1, 1))
             .setLocation(Point.ZERO)
             .setDirection(new Vector(0, 0, -1), new Vector(0, -1, 0))
             .setVpDistance(10);
@@ -28,7 +28,7 @@ class CameraTest {
      * {@link renderer.Camera#constructRay(int, int, int, int)}.
      */
     @Test
-    void testConstructRay() {
+    void testConstructRay() throws CloneNotSupportedException {
         final String badRay  = "Bad ray";
 
         // ============ Equivalence Partitions Tests ==============
@@ -65,4 +65,22 @@ class CameraTest {
 
     }
 
+}
+
+class CameraReyTest{
+
+    @Test
+    void spereTest(){
+
+    }
+
+    @Test
+    void pleneTest(){
+
+    }
+
+    @Test
+    void TriangleTest(){
+
+    }
 }

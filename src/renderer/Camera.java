@@ -75,7 +75,6 @@ public class Camera implements Cloneable {
             if(this.camera.height==0.0)
                 throw new MissingResourceException(description,ClassName,"Missing height");
             this.camera.right=this.camera.up.crossProduct(this.camera.to);
-
             return (Camera) camera.clone();
         }
     }
