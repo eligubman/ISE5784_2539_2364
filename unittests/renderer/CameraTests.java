@@ -28,7 +28,7 @@ class CameraTest {
      * {@link renderer.Camera#constructRay(int, int, int, int)}.
      */
     @Test
-    void testConstructRay() throws CloneNotSupportedException {
+    void testConstructRay()  {
         final String badRay  = "Bad ray";
 
         // ============ Equivalence Partitions Tests ==============
@@ -67,20 +67,3 @@ class CameraTest {
 
 }
 
-class CameraReyTest{
-
-    @Test
-    void spereTest(){
-
-    }
-
-    @Test
-    void pleneTest(){
-
-    }
-
-    @Test
-    void TriangleTest(){
-
-    }
-}

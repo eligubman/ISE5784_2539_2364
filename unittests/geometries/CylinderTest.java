@@ -23,12 +23,12 @@ class CylinderTest {
                 "TC01: Wrong normal to a point on the round surface");
 
         // TC02: Test normal to a point on the bottom base
-        Vector normalBottomBase = c.getNormal(new Point(0, 0, -1));
+        Vector normalBottomBase = c.getNormal(new Point(0, 0, 0));
         assertEquals(new Vector(0, 0, -1), normalBottomBase,
                 "TC02: Wrong normal to a point on the bottom base");
 
         // TC03: Test normal to a point on the top base
-        Vector normalTopBase = c.getNormal(new Point(0, 0, 1));
+        Vector normalTopBase = c.getNormal(new Point(0, 0, 2));
         assertEquals(new Vector(0, 0, 1), normalTopBase,
                 "TC03: Wrong normal to a point on the top base");
 
