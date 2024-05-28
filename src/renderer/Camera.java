@@ -31,6 +31,8 @@ public class Camera implements Cloneable {
     }
 
     public Ray constructRay(int nX, int nY, int j, int i){
+        if(isZero(nX) || isZero(nY) )
+            throw new IllegalArgumentException("The values are zero");
         // Pc is the center of the view plane
       Point pC = location.add(to.scale(distance));
         // ratio of the view plane-the size of the pixel
