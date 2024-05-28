@@ -9,13 +9,20 @@ import java.util.MissingResourceException;
 import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
+/**
+ * Camera class represents a camera in 3D Cartesian coordinate system
+
+ */
 public class Camera implements Cloneable {
     private Point location;
     private Vector right,up,to;
     private double height=0.0, width=0.0,distance=0.0;
 
+    /**
+     * Camera constructor
+     */
     private Camera(){}
-
+    // ***************** Getters ********************** //
     public double getDistance() {
         return distance;
     }
@@ -25,11 +32,22 @@ public class Camera implements Cloneable {
     public double getWidth() {
         return width;
     }
-
+    /**
+     * Camera builder
+     * @return the builder
+     */
     static public Builder getBuilder(){
         return new Builder();
     }
 
+    /**
+     * Construct Ray through a pixel
+     * @param nX the number of rows in the view plane
+     * @param nY the number of columns in the view plane
+     * @param j the x index of the pixel
+     * @param i the y index of the pixel
+     * @return the ray through the pixel
+     */
     public Ray constructRay(int nX, int nY, int j, int i){
         if(isZero(nX) || isZero(nY) )
             throw new IllegalArgumentException("The values are zero");
@@ -52,15 +70,27 @@ public class Camera implements Cloneable {
 
     }
     // ************************** Builder ****************************** //
-
+    /**
+     * Camera Builder
+     */
     public static class Builder{
         private final Camera camera = new Camera();
 
+        /**
+         * Set the location of the camera
+         * @param p the location of the camera
+         * @return the builder
+         */
         public Builder setLocation(Point p){
             this.camera.location=p;
             return this;
         }
-
+        /**
+         * Set the direction of the camera
+         * @param to the direction of the camera
+         * @param up the up vector of the camera
+         * @return the builder
+         */
         public Builder setDirection(Vector to,Vector up){
             if(to.dotProduct(up)!=0)
                 throw new IllegalArgumentException("The Vectors are not orthogonal");
@@ -70,6 +100,12 @@ public class Camera implements Cloneable {
             return this;
         }
 
+        /**
+         * Set the size of the view plane
+         * @param height the height of the view plane
+         * @param width the width of the view plane
+         * @return the builder
+         */
         public Builder setVpSize(double height,double width){
             if(width<0){
                 throw new IllegalArgumentException("Width are negative");
@@ -80,14 +116,21 @@ public class Camera implements Cloneable {
             this.camera.height=height;
             return this;
         }
-
+        /**
+         * Set the distance of the view plane
+         * @param distance the distance of the view plane from the camera
+         * @return the builder
+         */
         public Builder setVpDistance(double distance){
             if (distance<0)
                 throw new IllegalArgumentException("distance are negative");
             this.camera.distance=distance;
             return this;
         }
-
+        /**
+         * Build the camera
+         * @return the camera
+         */
         public Camera build()  {
             final String description = "One or more value are missing";
             final String ClassName = "Builder";

@@ -9,6 +9,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Integration tests for the camera and the shapes
+
+ */
 public class IntegrationTests {
 private  final Camera.Builder builder=Camera.getBuilder()
         .setLocation(Point.ZERO)
@@ -27,7 +31,9 @@ private Camera camera;
         int count=0;
         for(int i=0;i<3;i++){
             for(int j=0;j<3;j++){
+                // construct ray through pixel[i,j]
                 Ray ray = camera.constructRay(3, 3, i, j);
+                // find intersections between the ray and the shape
                 List<Point>points= shape.findIntersections(ray);
                 if(points!=null){
                     count+=points.size();
@@ -38,6 +44,9 @@ private Camera camera;
 
     }
 
+    /**
+     * Test method for sphere
+     */
     @Test
     void sphereTest(){
          camera=builder.setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
@@ -85,7 +94,9 @@ private Camera camera;
         assertEquals(0,intersectionsSum(camera,sphere),"the sphere is behind the camera");
 
     }
-
+    /**
+     * Test method for plane
+     */
     @Test
     void planeTest(){
     //TC01 the plane is in front the view plane 9 intersections
@@ -110,7 +121,9 @@ private Camera camera;
             assertEquals(6,intersectionsSum(camera,plane),"the plane is in front of the view panel diagonally");
 
     }
-
+    /**
+     * Test method for triangle
+     */
     @Test
     void TriangleTest(){
         //TC01 the triangle is in front of the view panel 1 intersection
