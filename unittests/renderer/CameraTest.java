@@ -5,10 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import primitives.*;
-import renderer.*;
 //import Scene.Scene;
 
-import javax.imageio.ImageWriter;
 
 /**
  * Testing Camera Class

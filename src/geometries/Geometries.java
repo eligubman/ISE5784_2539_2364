@@ -29,7 +29,7 @@ public class Geometries implements Intersectable{
              List<Point>  i = (geometry.findIntersections(ray));
              if(i!=null){
                  if (Intersection==null){
-                     Intersection= new ArrayList<>();
+                     Intersection= new LinkedList<>();
                  }
                  Intersection.addAll(i);
              }

@@ -33,7 +33,7 @@ public class Sphere extends RadialGeometry {
         if (ray.getHead().equals(center)) {
             return List.of(ray.getPoint(radius));
         }
-        //check if there is intsersection between them
+        //check if there is intersection between them
         Vector v = center.subtract(ray.getHead());
 
         double tm = alignZero(ray.getDirection().dotProduct(v));

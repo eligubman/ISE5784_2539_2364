@@ -1,6 +1,7 @@
 package geometries;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.isZero;
@@ -88,7 +89,7 @@ public class Polygon  implements  /*extends*/ Geometry {
         }
 
            Point checkPoint=intersections.get(0);
-        List<Vector> result=new ArrayList<>();
+        List<Vector> result=new LinkedList<>();
         Point last=vertices.get(size-1);
         //we will use the method of ni=(pi-pi-1)x(pi-1-Pinter) to check if the point is inside the polygon
         try{
