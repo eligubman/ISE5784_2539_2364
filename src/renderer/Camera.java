@@ -82,7 +82,11 @@ public class Camera implements Cloneable {
         return new Ray(location, pIJ.subtract(location));
 
     }
-
+    /**
+     * Render the image
+     *
+     * @return the camera
+     */
     public Camera renderImage(){
         if(imageWriter== null)
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
@@ -98,12 +102,25 @@ public class Camera implements Cloneable {
         return this;
     }
 
+    /**
+     * Cast a ray through a pixel
+     * @param nX the number of columns in the view plane
+     * @param nY the number of rows in the view plane
+     * @param column the x index of the pixel
+     * @param row the y index of the pixel
+     */
     private void castRay(int nX, int nY, int column, int row) {
         Ray ray = constructRay(nX, nY, column, row);
         Color color = rayTracer.traceRay(ray);
         imageWriter.writePixel(column, row, color);
     }
-
+    /**
+     * Print a grid on the image
+     *
+     * @param interval the interval between the lines
+     * @param color the color of the grid
+     * @return the camera
+     */
     public Camera printGrid(int interval, Color color){
         if(imageWriter== null)
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
@@ -116,11 +133,10 @@ public class Camera implements Cloneable {
         return this;
     }
 
-    public Camera writeToImage(){
+    public void writeToImage(){
         if(imageWriter== null)
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
         imageWriter.writeToImage();
-        return this;
     }
 
     // ************************** Builder ****************************** //
@@ -150,7 +166,7 @@ public class Camera implements Cloneable {
          * @return the builder
          */
         public Builder setDirection(Vector to, Vector up) {
-            if (to.dotProduct(up) != 0)
+            if (!isZero(to.dotProduct(up)))
                 throw new IllegalArgumentException("The Vectors are not orthogonal");
             this.camera.to = to.normalize();
             this.camera.up = up.normalize();
@@ -188,12 +204,23 @@ public class Camera implements Cloneable {
             this.camera.distance = distance;
             return this;
         }
-
+        /**
+         * Set the ImageWriter
+         *
+         * @param imageWriter the ImageWriter
+         * @return the builder
+         */
 
         public Builder setImageWriter(ImageWriter imageWriter) {
             this.camera.imageWriter = imageWriter;
             return this;
         }
+        /**
+         * Set the RayTracer
+         *
+         * @param rayTracer the RayTracer
+         * @return the builder
+         */
 
         public Builder setRayTracer(RayTracerBase rayTracer) {
             this.camera.rayTracer = rayTracer;
@@ -235,7 +262,6 @@ public class Camera implements Cloneable {
 
             if (!isZero(this.camera.to.dotProduct(this.camera.up)))
                 throw new MissingResourceException(description, ClassName, "the to and up are not orthogonal");
-            this.camera.right = this.camera.to.crossProduct(this.camera.up).normalize();
 
             try {
                 return (Camera) camera.clone();

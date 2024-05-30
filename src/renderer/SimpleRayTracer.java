@@ -7,6 +7,10 @@ import scene.Scene;
 
 import java.util.List;
 
+/**
+ * SimpleRayTracer class represents a simple ray tracer
+
+ */
 public class SimpleRayTracer extends RayTracerBase {
     public SimpleRayTracer(Scene scene) {
         super(scene);
@@ -22,7 +26,12 @@ public class SimpleRayTracer extends RayTracerBase {
         return calcColor(closestPoint);
     }
 
+    /**
+     * Calculate the color intensity in a point
+     * @param point the point to calculate the color intensity
+     * @return the color intensity in the point
+     */
     private Color calcColor(Point point) {
-        return scene.background;
+        return scene.ambientLight.getIntensity();
     }
 }
