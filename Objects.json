@@ -1,0 +1,22 @@
+{
+  "name": "scene1",
+  "background": {
+    "rgb": {
+      "d1": 0.0,
+      "d2": 0.0,
+      "d3": 0.0
+    }
+  },
+  "ambientLight": {
+    "intensity": {
+      "rgb": {
+        "d1": 0.0,
+        "d2": 0.0,
+        "d3": 0.0
+      }
+    }
+  },
+  "geometries": {
+    "Geometry": []
+  }
+}
