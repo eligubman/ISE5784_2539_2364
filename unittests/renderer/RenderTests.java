@@ -45,19 +45,19 @@ public class RenderTests {
    }
 
    /** Test for XML based scene - for bonus */
-   @Test
-   public void basicRenderXml() {
-      // enter XML file name and parse from XML file into scene object
-      // using the code you added in appropriate packages
-      // ...
-      // NB: unit tests is not the correct place to put XML parsing code
-
-      camera
-         .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-         .build()
-         .renderImage()
-         .printGrid(100, new Color(YELLOW))
-         .writeToImage();
-   }
+//   @Test
+//   public void basicRenderXml() {
+//      // enter XML file name and parse from XML file into scene object
+//      // using the code you added in appropriate packages
+//      // ...
+//      // NB: unit tests is not the correct place to put XML parsing code
+//
+//      camera
+//         .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
+//         .build()
+//         .renderImage()
+//         .printGrid(100, new Color(YELLOW))
+//         .writeToImage();
+//   }
 }
 
