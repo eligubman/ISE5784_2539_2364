@@ -22,7 +22,7 @@ public class Geometries implements Intersectable{
         Geometry.addAll(List.of(geometries));
 
     }
-
+@Override
     public List<Point> findIntersections(Ray ray){
         List<Point> Intersection = null;
         for (Intersectable geometry : Geometry) {
@@ -35,5 +35,9 @@ public class Geometries implements Intersectable{
              }
         }
         return Intersection;
+    }
+
+    public Intersectable[] getGeometries() {
+        return this.Geometry.toArray(new Intersectable[0]);
     }
 }
