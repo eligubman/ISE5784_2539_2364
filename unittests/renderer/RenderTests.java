@@ -8,6 +8,7 @@ import geometries.*;
 import lighting.AmbientLight;
 import primitives.*;
 import scene.Scene;
+import scene.WriteJsonExample;
 
 /** Test rendering a basic image
  * @author Dan */
@@ -45,19 +46,29 @@ public class RenderTests {
    }
 
    /** Test for XML based scene - for bonus */
-//   @Test
-//   public void basicRenderXml() {
-//      // enter XML file name and parse from XML file into scene object
-//      // using the code you added in appropriate packages
-//      // ...
-//      // NB: unit tests is not the correct place to put XML parsing code
-//
-//      camera
-//         .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
-//         .build()
-//         .renderImage()
-//         .printGrid(100, new Color(YELLOW))
-//         .writeToImage();
-//   }
+   @Test
+   public void basicRenderXml() {
+      // enter XML file name and parse from XML file into scene object
+      // using the code you added in appropriate packages
+      // ...
+      // NB: unit tests is not the correct place to put XML parsing code
+      scene.geometries.add(new Sphere(50d, new Point(0, 0, -100)),
+              new Triangle(new Point(-100, 0, -100), new Point(0, 100, -100), new Point(-100, 100, -100)), // up
+              // left
+              new Triangle(new Point(-100, 0, -100), new Point(0, -100, -100),
+                      new Point(-100, -100, -100)), // down
+              // left
+              new Triangle(new Point(100, 0, -100), new Point(0, -100, -100), new Point(100, -100, -100))); // down
+      scene.setAmbientLight(new AmbientLight(new Color(255, 191, 191), Double3.ONE))
+              .setBackground(new Color(75, 127, 90));
+      WriteJsonExample.write(scene, "Objects.json");
+      Scene scen = WriteJsonExample.read("Objects.json");
+      camera.setRayTracer(new SimpleRayTracer(scen))
+         .setImageWriter(new ImageWriter("xml render test", 1000, 1000))
+         .build()
+         .renderImage()
+         .printGrid(100, new Color(YELLOW))
+         .writeToImage();
+   }
 }
 

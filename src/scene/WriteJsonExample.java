@@ -12,37 +12,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class WriteJsonExample {
-    void write() {
+    public static void write(Scene scene, String fileName) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-        try (FileWriter writer = new FileWriter("Objects.json")) {
+        try (FileWriter writer = new FileWriter(fileName)) {
             // Write object to JSON file
-            Scene scene = new Scene("scene1");
-            scene.setBackground(Color.BLACK);
-            scene.setAmbientLight(AmbientLight.NONE);
             gson.toJson(scene, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    void read() {
+    public static Scene read(String fileName) {
         Gson gson = new Gson();
-        try (JsonReader reader = new JsonReader(new FileReader("Objects.json"))) {
+        try (JsonReader reader = new JsonReader(new FileReader(fileName))) {
             // Read JSON file and convert to object
             Scene scene = gson.fromJson(reader, Scene.class);
-
-            // Print object
-            System.out.println("Name: " + scene.name);
-            System.out.println("Color: " + scene.background);
+            return scene;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+
     }
 
-    public static void main(String[] args) {
-        WriteJsonExample example = new WriteJsonExample();
-        example.write();
-        example.read();
-    }
+
 }
