@@ -37,7 +37,5 @@ public class Geometries implements Intersectable{
         return Intersection;
     }
 
-    public Intersectable[] getGeometries() {
-        return this.Geometry.toArray(new Intersectable[0]);
-    }
+
 }
