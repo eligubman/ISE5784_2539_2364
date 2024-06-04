@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Geometries class represents a collection of geometries in 3D Cartesian coordinate system
  */
-public class Geometries implements Intersectable{
+public class Geometries extends Intersectable{
     private final List<Intersectable> Geometry = new LinkedList<>();
 
     Geometries(){}
@@ -23,10 +23,10 @@ public class Geometries implements Intersectable{
 
     }
 @Override
-    public List<Point> findIntersections(Ray ray){
-        List<Point> Intersection = null;
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+        List<GeoPoint> Intersection = null;
         for (Intersectable geometry : Geometry) {
-             List<Point>  i = (geometry.findIntersections(ray));
+            var  i = (geometry.findGeoIntersections(ray));
              if(i!=null){
                  if (Intersection==null){
                      Intersection= new LinkedList<>();

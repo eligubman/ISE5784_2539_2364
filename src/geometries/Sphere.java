@@ -3,7 +3,9 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+
 import static primitives.Util.*;
+
 import java.util.List;
 
 /**
@@ -28,10 +30,11 @@ public class Sphere extends RadialGeometry {
         return p.subtract(center).normalize();
     }
 
-    public List<Point> findIntersections(Ray ray) {
+    @Override
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // if the ray starts at the center of the sphere
         if (ray.getHead().equals(center)) {
-            return List.of(ray.getPoint(radius));
+            return List.of(new GeoPoint(this, ray.getPoint(radius)));
         }
         //check if there is intersection between them
         Vector v = center.subtract(ray.getHead());
@@ -45,14 +48,13 @@ public class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
         if (t1 > 0 && t2 > 0) {
-            return List.of(ray.getPoint(t1), ray.getPoint(t2));
+            return List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
         }
-        if (t1 > 0) {
-            return List.of(ray.getPoint(t1));
-        }
+        //if t2 is negative t1 is also negative so there is no need to check it
         if (t2 > 0) {
-            return List.of(ray.getPoint(t2));
+            return List.of(new GeoPoint(this, ray.getPoint(t2)));
         }
+        //if there are no intersections
         return null;
 
 

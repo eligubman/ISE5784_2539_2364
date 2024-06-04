@@ -3,8 +3,8 @@ import primitives.*;
 /**
  * AmbientLight class represents an ambient light in the scene
  */
-public class AmbientLight {
-    private final Color intensity;
+public class AmbientLight extends Light {
+
     public final static AmbientLight NONE = new AmbientLight(Color.BLACK,0);
 
     /**
@@ -13,7 +13,7 @@ public class AmbientLight {
      * @param kA the light intensity scaling factor
      */
     public AmbientLight(Color iA,Double3 kA){
-        intensity=iA.scale(kA);
+       super(iA.scale(kA));
     }
     /**
      * AmbientLight constructor
@@ -21,10 +21,8 @@ public class AmbientLight {
      * @param kA the light intensity scaling factor
      */
     public AmbientLight(Color iA, double kA){
-        intensity=iA.scale(kA);
+       super(iA.scale(kA));
     }
 
-    public Color getIntensity() {
-        return intensity;
-    }
+
 }

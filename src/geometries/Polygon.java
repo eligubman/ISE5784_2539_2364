@@ -15,7 +15,7 @@ import primitives.Vector;
  * system
  * @author Dan
  */
-public class Polygon  implements  /*extends*/ Geometry {
+public class Polygon   extends Geometry {
    /** List of polygon's vertices */
    protected final List<Point> vertices;
    /** Associated plane in which the polygon lays */
@@ -81,7 +81,8 @@ public class Polygon  implements  /*extends*/ Geometry {
             throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
       }
    }
-   public List<Point> findIntersections(Ray ray){
+   @Override
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
       List<Point> intersections=plane.findIntersections(ray);
       //if there are no intersections with the plane, there are no intersections with the polygon
         if(intersections==null){
@@ -109,7 +110,7 @@ public class Polygon  implements  /*extends*/ Geometry {
         catch (IllegalArgumentException e){
             return null;
         }
-        return intersections;
+        return List.of(new GeoPoint(this,checkPoint));
    }
 
    @Override
