@@ -57,19 +57,40 @@ public class Ray {
         return head.add(direction.scale(t));
     }
 
-    public Point findClosestPoint(List<Point> points){
-        if(points==null){
-            return null;
-        }
-        Point close=points.getFirst();
-        double distance = head.distance(close);
-        for(Point p:points){
-            if(head.distance(p)<distance){
-                close=p;
-                distance=head.distance(p);
-            }
-        }
-        return close;
-    }
+    /**
+     * A class that provides geometric utilities.
+     */
+    public class GeometryUtils {
 
+        private Point head; // The reference point from which distances are measured
+
+        /**
+         * Finds the closest point to the reference point (head) from a list of points.
+         *
+         * @param points the list of points to search from
+         * @return the closest point to the reference point, or null if the list is null or empty
+         */
+        public Point findClosestPoint(List<Point> points) {
+            // Return null if the list is null or empty
+            if (points == null || points.isEmpty()) {
+                return null;
+            }
+
+            // Initialize the closest point as the first point in the list
+            Point closest = points.get(0);
+            double minDistance = head.distance(closest);
+
+            // Iterate through each point in the list
+            for (Point point : points) {
+                double currentDistance = head.distance(point);
+                // Update the closest point if the current point is closer
+                if (currentDistance < minDistance) {
+                    closest = point;
+                    minDistance = currentDistance;
+                }
+            }
+
+            return closest;
+        }
+    }
 }
