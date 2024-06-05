@@ -70,11 +70,6 @@ public class RenderTests {
               .writeToImage();
    }
 
-
-
-
-
-
    /**
     * Test for JSON-based scene - for bonus.
     */
