@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Scene {
     public String name;
-    public Color background;
+    public Color background=Color.BLACK;
     public AmbientLight ambientLight = AmbientLight.NONE;
     public Geometries geometries=new Geometries();
     public List<LightSource> lights=new LinkedList<>();
@@ -48,9 +48,10 @@ public class Scene {
      * @param lights the light source to change to the scene
      * @return the scene
      */
-    public Scene setLight(List<LightSource> lights){
-       this.lights=lights;
+    public Scene setLight(List<LightSource> lights) {
+        this.lights = lights;
         return this;
+    }
 
 
 
