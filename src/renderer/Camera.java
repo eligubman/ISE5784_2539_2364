@@ -90,12 +90,12 @@ public class Camera implements Cloneable {
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
         if(rayTracer== null)
             throw new MissingResourceException("Missing RayTracer", "Camera", "rayTracer");
-         int nX = imageWriter.getNx();
-            int nY = imageWriter.getNy();
-            for (int i = 0; i < nX; i++) {
-                for (int j = 0; j < nY; j++) {
-                   castRay(nX, nY, i, j);
-                }
+        int nX = imageWriter.getNx();
+        int nY = imageWriter.getNy();
+        for (int i = 0; i < nX; i++) {
+            for (int j = 0; j < nY; j++) {
+                castRay(nX, nY, i, j);
+            }
         }
         return this;
     }
@@ -267,5 +267,6 @@ public class Camera implements Cloneable {
                 throw new RuntimeException(e);
             }
         }
+
     }
 }
