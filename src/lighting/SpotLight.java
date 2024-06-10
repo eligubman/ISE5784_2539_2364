@@ -27,8 +27,9 @@ public class SpotLight extends PointLight {
     @Override
     public Color getIntensity(Point p) {
         double cos = alignZero(direction.dotProduct(getL(p)));
-        if (alignZero(cos) <= 0) return Color.BLACK;
-        return super.getIntensity().scale(cos);
+        return narrowBeam!=1
+                ? super.getIntensity(p).scale(Math.pow(Math.max(0,direction.dotProduct(getL(p))),narrowBeam))
+                : super.getIntensity(p).scale(Math.max(0,direction.dotProduct(getL(p))));
     }
 
     /**
