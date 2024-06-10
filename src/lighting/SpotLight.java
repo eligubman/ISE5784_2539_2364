@@ -10,6 +10,7 @@ import static primitives.Util.isZero;
  */
 public class SpotLight extends PointLight {
     private final Vector direction;
+    private double narrowBeam = 1;
 
     /**
      * SpotLight constructor
@@ -61,4 +62,8 @@ public class SpotLight extends PointLight {
     }
 
 
+    public SpotLight setNarrowBeam(double i) {
+        this.narrowBeam = i;
+        return this;
+    }
 }
