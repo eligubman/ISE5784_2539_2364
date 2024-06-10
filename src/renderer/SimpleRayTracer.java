@@ -5,13 +5,13 @@ import lighting.LightSource;
 import primitives.*;
 import scene.Scene;
 import geometries.Intersectable.GeoPoint;
+
 import java.util.List;
 
 import static primitives.Util.alignZero;
 
 /**
  * SimpleRayTracer class represents a simple ray tracer
-
  */
 public class SimpleRayTracer extends RayTracerBase {
     public SimpleRayTracer(Scene scene) {
@@ -20,19 +20,19 @@ public class SimpleRayTracer extends RayTracerBase {
 
     @Override
     public Color traceRay(Ray ray) {
-        List<GeoPoint>points=scene.geometries.findGeoIntersectionsHelper(ray);
-        if (points==null){
+        List<GeoPoint> points = scene.geometries.findGeoIntersectionsHelper(ray);
+        if (points == null) {
             return scene.background;
         }
-        GeoPoint  closestPoint=ray.findClosestGeoPoint(points);
-        return calcColor(closestPoint,ray);
+        GeoPoint closestPoint = ray.findClosestGeoPoint(points);
+        return calcColor(closestPoint, ray);
     }
 
     /**
      * Calculates the color of a point in the scene.
      *
      * @param geoPoint The point on the geometry in the scene.
-     * @param ray      The ray from the camera to the intersection.
+     * @param ray The ray from the camera to the intersection.
      * @return The color of the point.
      */
     private Color calcColor(GeoPoint geoPoint, Ray ray) {
@@ -45,7 +45,7 @@ public class SimpleRayTracer extends RayTracerBase {
      * according to the Phong model.
      *
      * @param intersection The point on the geometry in the scene.
-     * @param ray          The ray from the camera to the intersection.
+     * @param ray The ray from the camera to the intersection.
      * @return The color of the point affected by local light sources.
      */
     private Color calcLocalEffects(GeoPoint intersection, Ray ray) {
@@ -76,9 +76,9 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculates the diffuse component of light reflection.
      *
-     * @param kd             The diffuse reflection coefficient.
-     * @param nl             The dot product between the normal vector and the light
-     *                       vector.
+     * @param kd The diffuse reflection coefficient.
+     * @param nl The dot product between the normal vector and the light
+     * vector.
      * @param lightIntensity The intensity of the light source.
      * @return The color contribution from the diffuse reflection.
      */
@@ -89,13 +89,13 @@ public class SimpleRayTracer extends RayTracerBase {
     /**
      * Calculates the specular component of light reflection.
      *
-     * @param ks             The specular reflection coefficient.
-     * @param l              The light vector.
-     * @param n              The normal vector.
-     * @param nl             The dot product between the normal vector and the light
-     *                       vector.
-     * @param v              The view vector.
-     * @param nShininess     The shininess coefficient.
+     * @param ks The specular reflection coefficient.
+     * @param l The light vector.
+     * @param n The normal vector.
+     * @param nl The dot product between the normal vector and the light
+     * vector.
+     * @param v The view vector.
+     * @param nShininess The shininess coefficient.
      * @param lightIntensity The intensity of the light source.
      * @return The color contribution from the specular reflection.
      */
@@ -104,7 +104,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Vector r = l.add(n.scale(-2 * nl)); // nl must not be zero!
         double minusVR = -alignZero(r.dotProduct(v));
         if (minusVR <= 0) {
-            return new primitives.Color(Color.BLACK.getColor()); // View from direction opposite to r vector
+            return Color.BLACK; // View from direction opposite to r vector
         }
         return lightIntensity.scale(ks.scale(Math.pow(minusVR, nShininess)));
     }

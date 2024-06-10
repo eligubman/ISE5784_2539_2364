@@ -1,4 +1,5 @@
 package lighting;
+
 import primitives.*;
 
 import static primitives.Util.alignZero;
@@ -12,6 +13,7 @@ public class SpotLight extends PointLight {
 
     /**
      * SpotLight constructor
+     *
      * @param intensity the intensity of the light
      * @param position the position of the light
      * @param direction the direction of the light
@@ -24,12 +26,13 @@ public class SpotLight extends PointLight {
     @Override
     public Color getIntensity(Point p) {
         double cos = alignZero(direction.dotProduct(getL(p)));
-        if (isZero(cos)||cos<0) return Color.BLACK;
+        if (alignZero(cos) <= 0) return Color.BLACK;
         return super.getIntensity().scale(cos);
     }
 
     /**
      * set the constant attenuation factor
+     *
      * @param kc the constant attenuation factor
      * @return the SpotLight object
      */
@@ -39,6 +42,7 @@ public class SpotLight extends PointLight {
 
     /**
      * set the linear attenuation factor
+     *
      * @param kl the linear attenuation factor
      * @return the SpotLight object
      */
@@ -48,6 +52,7 @@ public class SpotLight extends PointLight {
 
     /**
      * set the quadratic attenuation factor
+     *
      * @param kq the quadratic attenuation factor
      * @return the SpotLight object
      */

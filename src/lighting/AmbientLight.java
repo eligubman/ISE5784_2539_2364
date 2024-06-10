@@ -5,7 +5,7 @@ import primitives.*;
  */
 public class AmbientLight extends Light {
 
-    public final static AmbientLight NONE = new AmbientLight(Color.BLACK,0);
+    public final static AmbientLight NONE = new AmbientLight(Color.BLACK,0d);
 
     /**
      * AmbientLight constructor
