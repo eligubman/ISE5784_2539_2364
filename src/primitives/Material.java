@@ -10,6 +10,14 @@ public class Material {
      */
     public Double3 ks=Double3.ZERO;
     /**
+     *
+     */
+    public Double3 kt=Double3.ZERO;
+    /**
+     *
+     */
+    public Double3 kr=Double3.ZERO;
+    /**
      * the shininess of the material
      */
     public int nShininess=0;
@@ -49,7 +57,25 @@ public class Material {
         return this;
     }
 
+    public Material setKr(Double3 kr) {
+        this.kr=kr;
+        return this;
+    }
 
+    public Material setKr(Double kr) {
+        this.kr = new Double3(kr);
+        return this;
+    }
+
+    public Material setKt(Double3 kt) {
+        this.kt=kt;
+        return this;
+    }
+
+    public Material setKt(Double kt) {
+        this.kt = new Double3(kt);
+        return this;
+    }
 
     /**
      * setter for nShininess
