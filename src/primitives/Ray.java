@@ -13,6 +13,7 @@ import static primitives.Util.isZero;
 public class Ray {
    private final Point head;
     private final Vector direction;
+    private static final double DELTA = 0.00001; // Small value used for offset the ray origin
 
     public Point getHead() {
         return head;
@@ -29,6 +30,18 @@ public class Ray {
      */
     public Ray(Point head, Vector direction) {
         this.head = head;
+        this.direction = direction.normalize();
+    }
+
+    /**
+     * constructor for Ray class with normal to the direction
+     * @param head the head of the ray
+     * @param direction the direction of the ray
+     * @param normal the normal to the direction
+     */
+    public Ray(Point head, Vector direction, Vector normal) {
+        Vector delta = normal.scale(normal.dotProduct(direction) > 0 ? DELTA : -DELTA);
+        this.head = head.add(delta);
         this.direction = direction.normalize();
     }
 
@@ -49,7 +62,7 @@ public class Ray {
 
     /**
      *
-     * @param t
+     * @param t the distance from the head of the ray
      * @return the new point
      */
     public Point getPoint(double t){
@@ -71,7 +84,11 @@ public class Ray {
         }
 
 
-    
+    /**
+     * find the closest point to the head of the ray
+     * @param points list of points
+     * @return the closest GeoPoint
+     */
     public GeoPoint findClosestGeoPoint(List<GeoPoint> points){
         if(points==null){
             return null;

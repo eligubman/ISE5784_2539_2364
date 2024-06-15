@@ -82,20 +82,20 @@ public class Polygon   extends Geometry {
       }
    }
    @Override
-   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
-      List<Point> intersections=plane.findIntersections(ray);
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance){
+      List<GeoPoint> intersections=plane.findGeoIntersections(ray, distance);
       //if there are no intersections with the plane, there are no intersections with the polygon
         if(intersections==null){
              return null;
         }
 
-           Point checkPoint=intersections.get(0);
+           GeoPoint checkPoint=intersections.get(0);
         List<Vector> result=new LinkedList<>();
         Point last=vertices.get(size-1);
         //we will use the method of ni=(pi-pi-1)x(pi-1-Pinter) to check if the point is inside the polygon
         try{
            for(Point p:vertices){//we will add all of the vectors to the list
-              result.add(p.subtract(last).crossProduct(last.subtract(checkPoint)));
+              result.add(p.subtract(last).crossProduct(last.subtract(checkPoint.point)));
                 last=p;
            }
            Vector lastVec=result.getLast();
@@ -110,7 +110,7 @@ public class Polygon   extends Geometry {
         catch (IllegalArgumentException e){
             return null;
         }
-        return List.of(new GeoPoint(this,checkPoint));
+        return List.of(new GeoPoint(this,checkPoint.point));
    }
 
    @Override

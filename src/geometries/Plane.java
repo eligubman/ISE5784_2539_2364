@@ -41,7 +41,7 @@ public class Plane extends Geometry {
         this.q = p;
     }
     @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray){
+    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance){
         //if the ray starts at the plane
         if(ray.getHead().equals(q)){
             return null;
@@ -55,7 +55,7 @@ public class Plane extends Geometry {
 
         double t1=alignZero(normal.dotProduct(q.subtract(ray.getHead()))/t);
         //if the ray is in the opposite direction of the normal
-        if(t1<=0){
+        if(t1<=0||alignZero(t1-distance)>0){
             return null;
         }
         //if the ray intersects the plane

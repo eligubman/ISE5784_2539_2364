@@ -27,7 +27,18 @@ public abstract class Intersectable {
      * @return a list of intersection points of the ray with the geometry
      */
     public final   List<GeoPoint> findGeoIntersections(Ray ray){
-        return findGeoIntersectionsHelper(ray);
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * findGeoIntersections function returns a list of intersection points of a ray with the geometry
+     *
+     * @param ray the ray that intersects the geometry
+     * @param maxDistance the maximum distance from the ray head to the intersection point
+     * @return a list of intersection points of the ray with the geometry
+     */
+    public final List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        return findGeoIntersectionsHelper(ray, maxDistance);
     }
 
     /**
@@ -36,7 +47,7 @@ public abstract class Intersectable {
      * @param ray the ray that intersects the geometry
      * @return a list of intersection points of the ray with the geometry
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double distance);
 
 
 
