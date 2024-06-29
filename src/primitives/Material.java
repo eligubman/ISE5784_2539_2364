@@ -1,5 +1,18 @@
 package primitives;
-
+/**
+ * Represents the material properties of a geometric object in a 3D scene.
+ * This class encapsulates the various coefficients that define how the material interacts with light,
+ * including diffuse and specular reflections, transparency (kt), and reflectivity (kr).
+ * These properties influence the appearance of the object when rendered in a ray-traced scene.
+ * <p>
+ * The diffuse reflection coefficient (kd) determines how much of the incident light is scattered in all directions.
+ * The specular reflection coefficient (ks) affects the intensity of the specular highlights (shiny spots).
+ * The transparency coefficient (kt) defines how much light can pass through the material, enabling the creation of transparent objects.
+ * The reflectivity coefficient (kr) controls how much light is reflected by the surface, useful for creating mirrors or shiny surfaces.
+ * The shininess of the material (nShininess) influences the size and intensity of the specular highlights.
+ * <p>
+ * This class provides setter methods for each property, allowing for fluent configuration of material properties.
+ */
 public class Material {
     /**
      * the diffuse reflection coefficient of the material

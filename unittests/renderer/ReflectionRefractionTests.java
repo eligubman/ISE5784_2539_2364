@@ -126,10 +126,10 @@ public class ReflectionRefractionTests {
 
         // Add spheres with different colors and positions
         scene.geometries.add(
-                new Sphere(35, new Point(-200, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(250, 128, 114)),
+                new Sphere(35, new Point(-200, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(0, 0, 0)),
                 new Sphere(35, new Point(-100, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(PINK)),
                 new Sphere(35, new Point(0, -75, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(BLUE)),
-                new Sphere(35, new Point(100, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(64, 224, 208)),
+                new Sphere(35, new Point(100, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(64, 224, 0)),
                 new Sphere(35, new Point(200, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(255, 215, 0))
         );
 
