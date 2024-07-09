@@ -138,12 +138,12 @@ private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
         Ray reflectedRay = constructReflectedRay(gp.point, v, n, vn);
         Ray refractedRay = constructRefractedRay(gp.point, v, n);
         if (!kkr.lowerThan(MIN_CALC_COLOR_K)) {
-            color = color.add(calcGlobalEffect(reflectedRay, level - 1, kr, kkr));
+            color = color.add(calcGlobalEffect(material,reflectedRay, level - 1, kr, kkr));
         }
         Double3 kt = material.kt;
         Double3 kkt = k.product(kt);
         if (!kkt.lowerThan(MIN_CALC_COLOR_K)) {
-            color = color.add(calcGlobalEffect(refractedRay, level - 1, kt, kkt));
+            color = color.add(calcGlobalEffect(material,refractedRay, level - 1, kt, kkt));
         }
         return color;
     }
@@ -165,13 +165,14 @@ private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
  *         does not intersect with any object, or if the cumulative attenuation factor is below a certain threshold,
  *         the method returns black, indicating no significant contribution to the scene's color at this point.
  */
-    private Color calcGlobalEffect(Ray ray, int level, Double3 k, Double3 kx) {
+    private Color calcGlobalEffect(Material material,Ray ray, int level, Double3 k, Double3 kx) {
         Double3 kkx = k.product(kx);
         if (kkx.lowerThan(MIN_CALC_COLOR_K)) return Color.BLACK;
         GeoPoint gp = findClosestIntersection(ray);
-        return (gp == null ? scene.background.scale(kx) :
-               isZero( gp.geometry.getNormal(gp.point).dotProduct(ray.getDirection()) ) ? Color.BLACK
-                        : calcColor(gp, ray, level - 1, kkx).scale(k));
+        if (gp == null) return scene.background.scale(kx);
+        var rays = ray.generateBeam( gp.geometry.getNormal(gp.point),
+                material.blurGlassRadius, material.blurGlassDistance, material.numOfRays);
+        return calcAverageColor(rays, level-1, kkx).scale(k);
     }
 
 
@@ -412,6 +413,23 @@ private Ray constructReflectedRay(Point pointGeo, Vector v, Vector n, double vn)
 private GeoPoint findClosestIntersection(Ray ray) {
     return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
 }
+    /**
+     * get list of ray
+     *
+     * @param rays
+     * @param level
+     * @param kkx
+     * @return average color of the intersection of the rays
+     */
+    Color calcAverageColor(List<Ray> rays, int level, Double3 kkx) {
+        Color color = Color.BLACK;
 
+        for (Ray ray : rays) {
+            GeoPoint intersection = findClosestIntersection(ray);
+            color = color.add(intersection == null ? scene.background : calcColor(intersection, ray, level - 1, kkx));
+        }
+
+        return color.reduce(rays.size());
+    }
 
 }

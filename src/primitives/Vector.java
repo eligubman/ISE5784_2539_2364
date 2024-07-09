@@ -98,4 +98,17 @@ public class Vector extends  Point {
 
     @Override
     public String toString() { return "->" + super.toString(); }
+
+
+    /**
+     * create vector normal to this vector
+     *
+     * @return
+     */
+    public Vector createNormal() {
+        if (Util.isZero(this.xyz.d1))
+            return new Vector(1, 0, 0);
+
+        return new Vector(this.xyz.d2, -this.xyz.d1, 0).normalize();
+    }
 }

@@ -5,13 +5,11 @@ package renderer;
 
 import static java.awt.Color.*;
 
-import geometries.Geometries;
-import geometries.Plane;
+import geometries.*;
+import lighting.DirectionalLight;
 import lighting.PointLight;
 import org.junit.jupiter.api.Test;
 
-import geometries.Sphere;
-import geometries.Triangle;
 import lighting.AmbientLight;
 import lighting.SpotLight;
 import primitives.*;
@@ -126,9 +124,9 @@ public class ReflectionRefractionTests {
 
         // Add spheres with different colors and positions
         scene.geometries.add(
-                new Sphere(35, new Point(-200, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(0, 0, 0)),
+                new Sphere(35, new Point(-200, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.6).setKr(0.4).setShininess(20)).setEmission(new Color(0, 0, 0)),
                 new Sphere(35, new Point(-100, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(PINK)),
-                new Sphere(35, new Point(0, -75, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(BLUE)),
+                new Sphere(35, new Point(0, -75, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.9).setKr(0.1).setShininess(20)).setEmission(new Color(BLUE)),
                 new Sphere(35, new Point(100, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(64, 224, 0)),
                 new Sphere(35, new Point(200, 50, 200)).setMaterial(new Material().setKd(0.5).setKs(0.8).setKt(0.1).setKr(0.9).setShininess(20)).setEmission(new Color(255, 215, 0))
         );
@@ -175,7 +173,7 @@ public class ReflectionRefractionTests {
                 new Triangle(F3, D3, C3).setMaterial(material).setEmission(new Color(0, 235, 0))
         );
 
-        Material floorMaterial = new Material().setKd(0.2).setShininess(50).setKt(0.65).setKr(0.8).setKs(0.4);
+        Material floorMaterial = new Material().setKd(0.2).setShininess(50).setKt(0.65).setKr(0.8).setKs(0.4).setBlurGlass(50, 88, 22);
         scene.geometries.add(
                 new Plane(new Point(-1000, -1000, -height - 1), new Point(1000, -1000, -height - 1), new Point(0, 0, -height - 1))
                         .setMaterial(floorMaterial).setEmission(new Color(0, 0, 128))
@@ -191,7 +189,7 @@ public class ReflectionRefractionTests {
     }
 
     @Test
-    public void myShape4() {
+    public void myShape() {
 
         final Camera.Builder bonuscameraBuilder = Camera.getBuilder()
                 .setDirection(new Vector(1, 0, 0), new Vector(0, 0, 1));
@@ -249,7 +247,7 @@ public class ReflectionRefractionTests {
 
         scene.setBackground(new Color(BLUE).reduce(TRANSLUCENT));
 
-        ImageWriter imageWriter = new ImageWriter("myShape4", 500, 500);
+        ImageWriter imageWriter = new ImageWriter("myShape", 500, 500);
 
         bonuscameraBuilder.setLocation(new Point(-330, 0, 5))
                 .setVpDistance(1000d)
@@ -260,6 +258,55 @@ public class ReflectionRefractionTests {
                 .renderImage()
                 .writeToImage();
     }
+    @Test
+    public void testBlurryGlass() {
+
+        Vector vTo = new Vector(0, 1, 0);
+        Camera.Builder camera =Camera.getBuilder().setLocation(new Point(0,-230,0).add(vTo.scale(-13)))
+                .setDirection(vTo,new Vector(0,0,1))
+                .setVpSize(200d, 200).setVpDistance(1000);
+        ;
+
+        scene.setAmbientLight(new AmbientLight(new Color(gray).reduce(2), new Double3(0.15)));
+
+        for (int i = -4; i < 6; i += 2) {
+            scene.geometries.add(
+                    new Sphere(3, new Point(5 * i, -1.50, -3)).setEmission(new Color(red).reduce(4).reduce(2))
+                            .setMaterial(new Material().setKd(0.2).setKs(1).setShininess(80).setKt(0d)),
+
+                    new Sphere(3, new Point(5 * i, 5, 3)).setEmission(new Color(green).reduce(2))
+                            .setMaterial(new Material().setKd(0.2).setKs(1).setShininess(80).setKt(0d)),
+                    new Sphere(3, new Point(5 * i, -8, -8)).setEmission(new Color(yellow).reduce(2))
+                            .setMaterial(new Material().setKd(0.2).setKs(1).setShininess(80).setKt(0d)),
+
+                    new Polygon(new Point(5 * i - 4, -5, -11), new Point(5 * i - 4, -5, 5), new Point(5 * i + 4, -5, 5),
+                            new Point(5 * i + 4, -5, -11)).setEmission(new Color(250, 235, 215).reduce(2))
+                            .setMaterial(new Material().setKd(0.001).setKs(0.002).setShininess(1).setKt(0.95)
+                                    .setBlurGlass(i == 4 ? 1 : 1000, 0.9 * (i + 15), 17))
+
+            );
+        }
+
+        scene.geometries.add(new Plane(new Point(1, 10, 1), new Point(2, 10, 1), new Point(5, 10, 0))
+                .setEmission(new Color(white).reduce(3))
+                .setMaterial(new Material().setKd(0.2).setKs(0).setShininess(0).setKt(0d))
+
+        );
+
+        // scene.lights.add(new PointLight(new Color(100, 100, 150), new Point(0, 6,
+        // 0)));
+        scene.lights.add(new DirectionalLight(new Color(white).reduce(1), new Vector(-0.4, 1, 0)));
+        scene.lights.add(new SpotLight(new Color(white).reduce(2), new Point(20.43303, -7.37104, 13.77329),
+                new Vector(-20.43, 7.37, -13.77)).setKl(0.6));
+
+        ImageWriter imageWriter = new ImageWriter("blurryGlass2", 500, 500);
+       camera.setImageWriter(imageWriter) //
+                .setRayTracer(new SimpleRayTracer(scene)) //
+                .build() //
+                .renderImage()
+                .writeToImage();
+
+    }
 
 
-}
+    }

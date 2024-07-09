@@ -2,10 +2,11 @@ package primitives;
 
 import geometries.Intersectable;
 
-import java.util.List;
+import java.util.*;
 import java.util.Objects;
 import geometries.Intersectable.GeoPoint;
-import static primitives.Util.isZero;
+
+import static primitives.Util.*;
 
 /**
  * Ray class represents a ray in 3D Cartesian coordinate system
@@ -102,5 +103,58 @@ public class Ray {
             }
         }
         return closest;
+    }
+
+    /**
+     *
+     * @param n         normal to the geometry
+     * @param radius    radius of the beam circle
+     * @param distance  distance of the eam circle
+     * @param numOfRays num of rays in the beam
+     * @return list of beam rays
+     */
+    public List<Ray> generateBeam(Vector n, double radius, double distance, int numOfRays) {
+        List<Ray> rays = new LinkedList<Ray>();
+        rays.add(this);// Including the main ray
+        if (numOfRays == 1 || isZero(radius))// The component (glossy surface /diffuse glass) is turned off
+            return rays;
+
+        // the 2 vectors that create the virtual grid for the beam
+        Vector nX = direction.createNormal();
+        Vector nY = direction.crossProduct(nX);
+
+        Point centerCircle = this.getPoint(distance);
+        Point randomPoint;
+        Vector v12;
+
+        double rand_x, rand_y, delta_radius = radius / (numOfRays - 1);
+        double nv = n.dotProduct(direction);
+
+        for (int i = 1; i < numOfRays; i++) {
+            randomPoint = centerCircle;
+            rand_x = random(-radius, radius);
+            rand_y = randomSign() * Math.sqrt(radius * radius - rand_x * rand_x);
+
+            try {
+                randomPoint = randomPoint.add(nX.scale(rand_x));
+            } catch (Exception ex) {
+            }
+
+            try {
+                randomPoint = randomPoint.add(nY.scale(rand_y));
+            } catch (Exception ex) {
+            }
+
+            v12 = randomPoint.subtract(head).normalize();
+
+            double nt = alignZero(n.dotProduct(v12));
+
+            if (nv * nt > 0) {
+                rays.add(new Ray(head, v12));
+            }
+            radius -= delta_radius;
+        }
+
+        return rays;
     }
 }

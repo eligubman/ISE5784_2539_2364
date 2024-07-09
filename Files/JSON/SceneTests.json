@@ -56,7 +56,10 @@
             "d2": 0.0,
             "d3": 0.0
           },
-          "nShininess": 0
+          "nShininess": 0,
+          "numOfRays": 1,
+          "blurGlassDistance": 1.0,
+          "blurGlassRadius": 1.0
         }
       }
     },
@@ -129,7 +132,10 @@
               "d2": 0.0,
               "d3": 0.0
             },
-            "nShininess": 0
+            "nShininess": 0,
+            "numOfRays": 1,
+            "blurGlassDistance": 1.0,
+            "blurGlassRadius": 1.0
           }
         },
         "size": 3,
@@ -161,7 +167,10 @@
             "d2": 0.0,
             "d3": 0.0
           },
-          "nShininess": 0
+          "nShininess": 0,
+          "numOfRays": 1,
+          "blurGlassDistance": 1.0,
+          "blurGlassRadius": 1.0
         }
       }
     },
@@ -234,7 +243,10 @@
               "d2": 0.0,
               "d3": 0.0
             },
-            "nShininess": 0
+            "nShininess": 0,
+            "numOfRays": 1,
+            "blurGlassDistance": 1.0,
+            "blurGlassRadius": 1.0
           }
         },
         "size": 3,
@@ -266,7 +278,10 @@
             "d2": 0.0,
             "d3": 0.0
           },
-          "nShininess": 0
+          "nShininess": 0,
+          "numOfRays": 1,
+          "blurGlassDistance": 1.0,
+          "blurGlassRadius": 1.0
         }
       }
     },
@@ -339,7 +354,10 @@
               "d2": 0.0,
               "d3": 0.0
             },
-            "nShininess": 0
+            "nShininess": 0,
+            "numOfRays": 1,
+            "blurGlassDistance": 1.0,
+            "blurGlassRadius": 1.0
           }
         },
         "size": 3,
@@ -371,7 +389,10 @@
             "d2": 0.0,
             "d3": 0.0
           },
-          "nShininess": 0
+          "nShininess": 0,
+          "numOfRays": 1,
+          "blurGlassDistance": 1.0,
+          "blurGlassRadius": 1.0
         }
       }
     }
