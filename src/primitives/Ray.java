@@ -106,55 +106,72 @@ public class Ray {
     }
 
     /**
+     * Generates a beam of rays spread out from the main ray within a specified radius and distance.
+     * The beam is formed by calculating additional rays at random points within a circle defined by the radius
+     * and centered at a point along the main ray's direction at the specified distance.
      *
-     * @param n         normal to the geometry
-     * @param radius    radius of the beam circle
-     * @param distance  distance of the eam circle
-     * @param numOfRays num of rays in the beam
-     * @return list of beam rays
+     * @param n The normal vector to the plane in which the rays are spread.
+     * @param radius The radius of the circle within which the rays are spread.
+     * @param distance The distance from the head of the main ray to the center of the circle.
+     * @param numOfRays The number of rays to generate within the beam, including the main ray.
+     * @return A list of {@link Ray} objects representing the main ray and the additional rays forming the beam.
      */
     public List<Ray> generateBeam(Vector n, double radius, double distance, int numOfRays) {
-        List<Ray> rays = new LinkedList<Ray>();
-        rays.add(this);// Including the main ray
-        if (numOfRays == 1 || isZero(radius))// The component (glossy surface /diffuse glass) is turned off
-            return rays;
+    List<Ray> rays = new LinkedList<Ray>();
+    rays.add(this); // Including the main ray in the list of rays to be returned
 
-        // the 2 vectors that create the virtual grid for the beam
-        Vector nX = direction.createNormal();
-        Vector nY = direction.crossProduct(nX);
+    // If only one ray is requested or the radius is zero, return the list containing only the current ray
+    if (numOfRays == 1 || isZero(radius))
+        return rays;
 
-        Point centerCircle = this.getPoint(distance);
-        Point randomPoint;
-        Vector v12;
+    // Calculate two orthogonal vectors (nX, nY) on the plane perpendicular to the direction of the ray
+    Vector nX = direction.createNormal(); // Create a normal vector to the direction of the ray
+    Vector nY = direction.crossProduct(nX); // Create another vector orthogonal to both the direction and nX
 
-        double rand_x, rand_y, delta_radius = radius / (numOfRays - 1);
-        double nv = n.dotProduct(direction);
+    // Calculate the center of the circle at the specified distance along the ray from its head
+    Point centerCircle = this.getPoint(distance);
 
-        for (int i = 1; i < numOfRays; i++) {
-            randomPoint = centerCircle;
-            rand_x = random(-radius, radius);
-            rand_y = randomSign() * Math.sqrt(radius * radius - rand_x * rand_x);
+    Point randomPoint; // Placeholder for points on the circle
+    Vector v12; // Placeholder for the direction vector from the ray's head to a point on the circle
 
-            try {
-                randomPoint = randomPoint.add(nX.scale(rand_x));
-            } catch (Exception ex) {
-            }
+    double rand_x, rand_y; // Random x and y coordinates on the circle
+    double delta_radius = radius / (numOfRays - 1); // Decrement of radius for each additional ray
+    double nv = n.dotProduct(direction); // Dot product of the normal vector and the ray's direction
 
-            try {
-                randomPoint = randomPoint.add(nY.scale(rand_y));
-            } catch (Exception ex) {
-            }
+    // Generate additional rays within the beam
+    for (int i = 1; i < numOfRays; i++) {
+        randomPoint = centerCircle; // Start at the center of the circle
 
-            v12 = randomPoint.subtract(head).normalize();
+        // Generate random x and y coordinates within the circle
+        rand_x = random(-radius, radius);
+        rand_y = randomSign() * Math.sqrt(radius * radius - rand_x * rand_x); // Ensure the point lies within the circle
 
-            double nt = alignZero(n.dotProduct(v12));
-
-            if (nv * nt > 0) {
-                rays.add(new Ray(head, v12));
-            }
-            radius -= delta_radius;
+        // Offset the center point by the random x and y coordinates to get a point on the circle
+        try {
+            randomPoint = randomPoint.add(nX.scale(rand_x));
+        } catch (Exception ex) {
         }
 
-        return rays;
+        try {
+            randomPoint = randomPoint.add(nY.scale(rand_y));
+        } catch (Exception ex) {
+        }
+
+        // Calculate the direction vector from the ray's head to the random point on the circle
+        v12 = randomPoint.subtract(head).normalize();
+
+        // Calculate the dot product of the normal vector and this new direction vector
+        double nt = alignZero(n.dotProduct(v12));
+
+        // Add the new ray to the list if it's in the same general direction as the original ray
+        if (nv * nt > 0) {
+            rays.add(new Ray(head, v12));
+        }
+
+        // Decrease the radius for the next iteration to distribute rays evenly across the beam
+        radius -= delta_radius;
     }
+
+    return rays; // Return the list of rays forming the beam
+}
 }
