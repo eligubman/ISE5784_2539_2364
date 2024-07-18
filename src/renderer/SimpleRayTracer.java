@@ -48,7 +48,7 @@ public class SimpleRayTracer extends RayTracerBase {
 
     private static final int MAX_CALC_COLOR_LEVEL = 10;
 
-    private static final double MIN_CALC_COLOR_K = 0.001;
+    protected static final double MIN_CALC_COLOR_K = 0.001;
     private static final Double3 INITIAL_K = Double3.ONE;
 
     public SimpleRayTracer(Scene scene) {
@@ -201,7 +201,7 @@ private Color calcColor(GeoPoint gp, Ray ray, int level, Double3 k) {
  * @return The calculated transparency level as a {@link Double3} value. This value represents the cumulative effect of light
  *         transmission through transparent materials and is used to scale the intensity of light reaching the point.
  */
-    private Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
+    protected Double3 transparency(GeoPoint gp, LightSource light, Vector l, Vector n) {
 
         Vector lightDirection = l.scale(-1); // from point to light source
         Ray lightRay = new Ray(gp.point, lightDirection, n);
@@ -385,7 +385,7 @@ private Ray constructReflectedRay(Point pointGeo, Vector v, Vector n, double vn)
  *           is not directly used in this method but is included for consistency with other lighting calculation methods.
  * @return True if the point is unshaded (directly illuminated by the light source), false if it is in shadow (blocked by another geometry).
  */
-    private boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource, double nl) {
+    protected boolean unshaded(GeoPoint gp, Vector l, Vector n, LightSource lightSource, double nl) {
         Vector lightDirection = l.scale(-1);//from the point to light score
         Ray lightRay = new Ray(gp.point, lightDirection, n);
         List<GeoPoint> Intersection = scene.geometries.findGeoIntersections(lightRay, lightSource.getDistance(gp.point));
@@ -410,7 +410,7 @@ private Ray constructReflectedRay(Point pointGeo, Vector v, Vector n, double vn)
  * @param ray The ray for which the closest intersection point is to be found. The ray originates from the camera and passes through a specific pixel on the view plane.
  * @return The closest {@link GeoPoint} representing the intersection point and the geometry it belongs to. If the ray does not intersect with any geometry in the scene, returns {@code null}.
  */
-private GeoPoint findClosestIntersection(Ray ray) {
+protected GeoPoint findClosestIntersection(Ray ray) {
     return ray.findClosestGeoPoint(scene.geometries.findGeoIntersections(ray));
 }
     /**

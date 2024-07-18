@@ -12,6 +12,7 @@ import primitives.Point;
 import primitives.Vector;
 import renderer.Camera;
 import renderer.ImageWriter;
+import renderer.RegularRayTracer;
 import renderer.SimpleRayTracer;
 import scene.Scene;
 
@@ -1569,7 +1570,7 @@ public class TeapotTest {
 		);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
 
-		camera.setRayTracer(new SimpleRayTracer(scene)).build().renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
+		camera.setRayTracer(new RegularRayTracer(scene,2)).build().renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
 	}
 
 }

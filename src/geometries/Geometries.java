@@ -20,6 +20,17 @@ public class Geometries extends Intersectable{
 
     public void add(Intersectable... geometries){
         Geometry.addAll(List.of(geometries));
+        for (Intersectable element : geometries) {
+            List<Double> edges = element.getEdges();
+            double tMinX = edges.get(0), tMinY = edges.get(1), tMinZ = edges.get(2), tMaxX = edges.get(3),
+                    tMaxY = edges.get(4), tMaxZ = edges.get(5);
+            minX = tMinX < minX ? tMinX : minX;
+            minY = tMinY < minY ? tMinY : minY;
+            minZ = tMinZ < minZ ? tMinZ : minZ;
+            maxX = tMaxX > maxX ? tMaxX : maxX;
+            maxY = tMaxY > maxY ? tMaxY : maxY;
+            maxZ = tMaxZ > maxZ ? tMaxZ : maxZ;
+        }
 
     }
 @Override
@@ -35,5 +46,9 @@ public class Geometries extends Intersectable{
              }
         }
         return Intersection;
+    }
+
+    public List<Intersectable> getGeometries() {
+        return Geometry;
     }
 }

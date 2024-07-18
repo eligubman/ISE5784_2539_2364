@@ -9,6 +9,12 @@ import java.util.List;
  * Intersectable interface is the basic interface for all geometries that can be intersected by a ray
  */
 public abstract class Intersectable {
+    // the voxel grid boundaries
+
+    double minX = Double.POSITIVE_INFINITY, minY = Double.POSITIVE_INFINITY, minZ = Double.POSITIVE_INFINITY,
+            maxX = Double.NEGATIVE_INFINITY, maxY = Double.NEGATIVE_INFINITY, maxZ = Double.NEGATIVE_INFINITY;
+
+
     /**
      * findIntersections function returns a list of intersection points of a ray with the geometry
      *
@@ -50,8 +56,13 @@ public abstract class Intersectable {
     protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray,double distance);
 
 
-
-
+    /**
+     * getEdges function returns the voxel grid boundaries
+     * @return the voxel grid boundaries
+     */
+    public final List<Double> getEdges() {
+        return List.of(minX, minY, minZ, maxX, maxY, maxZ);
+    }
 
     /**
      * GeoPoint class is a helper class that holds a geometry and a point
