@@ -5,6 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
 import java.util.MissingResourceException;
 
 import static primitives.Util.alignZero;
@@ -23,6 +24,11 @@ public class Camera implements Cloneable {
     private double distance = 0.0;
     private ImageWriter imageWriter;
     private RayTracerBase rayTracer;
+    // threads management
+    private PixelManager pixelManager;
+    private int threadsCount = 0; // -2 auto, -1 range/stream, 0 no threads, 1+ number of threadsprivate
+    final int SPARE_THREADS = 2; // Spare threads if trying to use all the coresprivate
+    double printInterval = 0; // printing progress percentage interval
 
     /**
      * Camera constructor
@@ -80,38 +86,64 @@ public class Camera implements Cloneable {
         return new Ray(location, pIJ.subtract(location));
 
     }
+
     /**
      * Render the image
      *
      * @return the camera
      */
-    public Camera renderImage(){
-        if(imageWriter== null)
+    public Camera renderImage() {
+        if (imageWriter == null)
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
-        if(rayTracer== null)
+        if (rayTracer == null)
             throw new MissingResourceException("Missing RayTracer", "Camera", "rayTracer");
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
-        for (int i = 0; i < nX; i++) {
-            for (int j = 0; j < nY; j++) {
-                castRay(nX, nY, i, j);
+        pixelManager = new PixelManager(nY, nX, printInterval);
+
+        if (threadsCount == 0) {
+            for (int i = 0; i < nX; i++) {
+                for (int j = 0; j < nY; j++) {
+                    castRay(nX, nY, i, j);
+                }
             }
+        } else {
+
+            var threads = new LinkedList<Thread>(); // list of threads
+            while (threadsCount-- > 0) // add appropriate number of threads
+                threads.add(new Thread(() -> { // add a thread with its code
+                    PixelManager.Pixel pixel; // current pixel(row,col)
+                    // allocate pixel(row,col) in loop until there are no more pixels
+                    while ((pixel = pixelManager.nextPixel()) != null)
+                        // cast ray through pixel (and color it – inside castRay)
+                        castRay(nX, nY, pixel.col(), pixel.row());
+                }));
+            // start all the threads
+            for (var thread : threads) thread.start();
+            // wait until all the threads have finished
+            try {
+                for (var thread : threads) thread.join();
+            } catch (InterruptedException ignore) {
+            }
+
         }
+
         return this;
     }
 
     /**
      * Cast a ray through a pixel
+     *
      * @param nX the number of columns in the view plane
      * @param nY the number of rows in the view plane
      * @param column the x index of the pixel
      * @param row the y index of the pixel
      */
     private void castRay(int nX, int nY, int column, int row) {
-        Ray ray = constructRay(nX, nY, column, row);
-        Color color = rayTracer.traceRay(ray);
-        imageWriter.writePixel(column, row, color);
+        imageWriter.writePixel(column, row, rayTracer.traceRay(constructRay(nX, nY, column, row)));
+        pixelManager.pixelDone();
     }
+
     /**
      * Print a grid on the image
      *
@@ -119,20 +151,20 @@ public class Camera implements Cloneable {
      * @param color the color of the grid
      * @return the camera
      */
-    public Camera printGrid(int interval, Color color){
-        if(imageWriter== null)
+    public Camera printGrid(int interval, Color color) {
+        if (imageWriter == null)
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
-        for(int i=0;i<imageWriter.getNx();i++){
-            for(int j=0;j<imageWriter.getNy();j++){
-                if(i%interval==0 || j%interval==0)
-                    imageWriter.writePixel(i,j,color);
+        for (int i = 0; i < imageWriter.getNx(); i++) {
+            for (int j = 0; j < imageWriter.getNy(); j++) {
+                if (i % interval == 0 || j % interval == 0)
+                    imageWriter.writePixel(i, j, color);
             }
         }
         return this;
     }
 
-    public void writeToImage(){
-        if(imageWriter== null)
+    public void writeToImage() {
+        if (imageWriter == null)
             throw new MissingResourceException("Missing ImageWriter", "Camera", "imageWriter");
         imageWriter.writeToImage();
     }
@@ -202,6 +234,7 @@ public class Camera implements Cloneable {
             this.camera.distance = distance;
             return this;
         }
+
         /**
          * Set the ImageWriter
          *
@@ -213,6 +246,7 @@ public class Camera implements Cloneable {
             this.camera.imageWriter = imageWriter;
             return this;
         }
+
         /**
          * Set the RayTracer
          *
@@ -222,6 +256,33 @@ public class Camera implements Cloneable {
 
         public Builder setRayTracer(RayTracerBase rayTracer) {
             this.camera.rayTracer = rayTracer;
+            return this;
+        }
+
+        /**
+         * Set the threads count
+         *
+         * @param threads the number of threads
+         * @return the builder for chaining calls
+         */
+        public Builder setMultithreading(int threads) {
+            if (threads < -2) throw new IllegalArgumentException("Multithreading must be -2 or higher");
+            if (threads >= -1) this.camera.threadsCount = threads;
+            else { // == -2
+                int cores = Runtime.getRuntime().availableProcessors() - this.camera.SPARE_THREADS;
+                this.camera.threadsCount = cores <= 2 ? 1 : cores;
+            }
+            return this;
+        }
+
+        /**
+         * Set the debug print
+         *
+         * @param interval the interval between the prints
+         * @return the builder for chaining calls
+         */
+        public Builder setDebugPrint(double interval) {
+            this.camera.printInterval = interval;
             return this;
         }
 
