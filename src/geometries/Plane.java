@@ -28,6 +28,7 @@ public class Plane extends Geometry {
         //the normal calculation is done by the cross product of two vectors on the plane
         this.normal = ((p2.subtract(p1)).crossProduct(p3.subtract(p1))).normalize();
         this.q = p1;
+        this.boundary=calcBoundary();
     }
 
     /**
@@ -74,4 +75,13 @@ public class Plane extends Geometry {
     public Vector getNormal(Point p) {
         return normal;
     }
-}
+
+    @Override
+    protected int[][] calcBoundary() {
+    return null;
+
+
+    }
+    }
+
+

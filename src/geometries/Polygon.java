@@ -54,7 +54,10 @@ public class Polygon   extends Geometry {
       // polygon with this plane.
       // The plane holds the invariant normal (orthogonal unit) vector to the polygon
       plane         = new Plane(vertices[0], vertices[1], vertices[2]);
-      if (size == 3) return; // no need for more tests for a Triangle
+      if (size == 3) {
+          this.boundary=calcBoundary();
+          return; // no need for more tests for a Triangle
+      }
 
       Vector  n        = plane.getNormal();
       // Subtracting any subsequent points will throw an IllegalArgumentException
@@ -80,6 +83,7 @@ public class Polygon   extends Geometry {
          if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
             throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
       }
+        this.boundary=calcBoundary();
    }
    @Override
    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance){
@@ -115,5 +119,40 @@ public class Polygon   extends Geometry {
 
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
+
+    @Override
+    public int[][] calcBoundary() {
+        double minX = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        double minZ = Double.POSITIVE_INFINITY;
+        double maxZ = Double.NEGATIVE_INFINITY;
+        double x;
+        double y;
+        double z;
+        for (var point : vertices) {
+            x = point.getX();
+            y = point.getY();
+            z = point.getZ();
+            if (x < minX)
+                minX = x;
+            if (x > maxX)
+                maxX = x;
+            if (y < minY)
+                minY = y;
+            if (y > maxY)
+                maxY = y;
+            if (z < minZ)
+                minZ = z;
+            if (z > maxZ)
+                maxZ = z;
+        }
+
+        return new int[][]{{(int) Math.floor(minX), (int) Math.ceil(maxX)},
+                {(int) Math.floor(minY), (int) Math.ceil(maxY)},
+                {(int) Math.floor(minZ), (int) Math.ceil(maxZ)}};
+    }
+
 
 }
