@@ -183,7 +183,7 @@ public class ReflectionRefractionTests {
         scene.lights.add(new PointLight(new Color(255, 255, 255), new Point(-200, -200, 200)));
 
         cameraBuilder.setLocation(new Point(0, -600, 0)).setDirection(new Vector(0, 1, 0), new Vector(0, 0, 1)).
-                setRayTracer(new RegularRayTracer(scene,2)).setVpSize(150, 150).setVpDistance(100)
+                setRayTracer(new SimpleRayTracer(scene)).setVpSize(150, 150).setVpDistance(100)
                 .setMultithreading(6) .setImageWriter(new ImageWriter("take104", 1000, 1000)).build().renderImage().writeToImage();
 
     }
@@ -252,7 +252,7 @@ public class ReflectionRefractionTests {
         bonuscameraBuilder.setLocation(new Point(-330, 0, 5))
                 .setVpDistance(1000d)
                 .setVpSize(200, 200)
-                .setRayTracer(new RegularRayTracer(scene,2))
+                .setRayTracer(new SimpleRayTracer(scene))
                 .setImageWriter(imageWriter)
                 .build()
                 .renderImage()
