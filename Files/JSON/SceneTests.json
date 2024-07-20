@@ -60,7 +60,21 @@
           "numOfRays": 1,
           "blurGlassDistance": 1.0,
           "blurGlassRadius": 1.0
-        }
+        },
+        "boundary": [
+          [
+            -50,
+            50
+          ],
+          [
+            -50,
+            50
+          ],
+          [
+            -150,
+            -50
+          ]
+        ]
       }
     },
     {
@@ -171,7 +185,21 @@
           "numOfRays": 1,
           "blurGlassDistance": 1.0,
           "blurGlassRadius": 1.0
-        }
+        },
+        "boundary": [
+          [
+            -100,
+            0
+          ],
+          [
+            0,
+            100
+          ],
+          [
+            -100,
+            -100
+          ]
+        ]
       }
     },
     {
@@ -282,7 +310,21 @@
           "numOfRays": 1,
           "blurGlassDistance": 1.0,
           "blurGlassRadius": 1.0
-        }
+        },
+        "boundary": [
+          [
+            -100,
+            0
+          ],
+          [
+            -100,
+            0
+          ],
+          [
+            -100,
+            -100
+          ]
+        ]
       }
     },
     {
@@ -393,9 +435,31 @@
           "numOfRays": 1,
           "blurGlassDistance": 1.0,
           "blurGlassRadius": 1.0
-        }
+        },
+        "boundary": [
+          [
+            0,
+            100
+          ],
+          [
+            -100,
+            0
+          ],
+          [
+            -100,
+            -100
+          ]
+        ]
       }
     }
   ],
-  "lights": []
+  "lights": [],
+  "xEdgeScene": 0,
+  "yEdgeScene": 0,
+  "zEdgeScene": 0,
+  "resolution": 10.0,
+  "voxels": {},
+  "xEdgeVoxel": 0.0,
+  "yEdgeVoxel": 0.0,
+  "zEdgeVoxel": 0.0
 }

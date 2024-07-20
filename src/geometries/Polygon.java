@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 import primitives.Point;
@@ -23,7 +22,6 @@ public class Polygon   extends Geometry {
    protected final Plane       plane;
    /** The size of the polygon - the amount of the vertices in the polygon */
    private final int           size;
-    private final static double DELTA = 0.00001;
 
    /**
     * Polygon constructor based on vertices list. The list must be ordered by edge
@@ -56,24 +54,10 @@ public class Polygon   extends Geometry {
       // polygon with this plane.
       // The plane holds the invariant normal (orthogonal unit) vector to the polygon
       plane         = new Plane(vertices[0], vertices[1], vertices[2]);
-
-       for (Point p : vertices) {
-           double x = p.getX(), y = p.getY(), z = p.getZ();
-           minX = x < minX ? x : minX;
-           minY = y < minY ? y : minY;
-           minZ = z < minZ ? z : minZ;
-           maxX = x > maxX ? x : maxX;
-           maxY = y > maxY ? y : maxY;
-           maxZ = z > maxZ ? z : maxZ;
-       }
-
-       minX -= DELTA;
-       minY -= DELTA;
-       minZ -= DELTA;
-       maxX += DELTA;
-       maxY += DELTA;
-       maxZ += DELTA;
-      if (size == 3) return; // no need for more tests for a Triangle
+      if (size == 3) {
+          this.boundary=calcBoundary();
+          return; // no need for more tests for a Triangle
+      }
 
       Vector  n        = plane.getNormal();
       // Subtracting any subsequent points will throw an IllegalArgumentException
@@ -99,48 +83,76 @@ public class Polygon   extends Geometry {
          if (positive != (edge1.crossProduct(edge2).dotProduct(n) > 0))
             throw new IllegalArgumentException("All vertices must be ordered and the polygon must be convex");
       }
+        this.boundary=calcBoundary();
    }
-    @Override
-    public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double maxDistance) {
-        var points = this.plane.findGeoIntersections(ray, maxDistance);
-        // Only check point if the ray intersects the plane of the polygon.
-        if (points == null)
-            return null;
-
-        boolean pointInPolygon = pointInPolygon(ray);
-        if (!pointInPolygon)
-            return null;
-        points.get(0).geometry = this;
-        return points;
-    }
-
-    /**
-     * @param ray
-     */
-    public boolean pointInPolygon(Ray ray) {
-        Point p0 = ray.getHead();
-        Vector v = ray.getDirection();
-        List<Vector> vectors = new LinkedList<>();
-        // Construct vectors to the vertices
-        for (Point p : this.vertices) {
-            vectors.add(p.subtract(p0));
+   @Override
+   public List<GeoPoint> findGeoIntersectionsHelper(Ray ray, double distance){
+      List<GeoPoint> intersections=plane.findGeoIntersections(ray, distance);
+      //if there are no intersections with the plane, there are no intersections with the polygon
+        if(intersections==null){
+             return null;
         }
-        int vSize = vectors.size();
-        // Cross product each adjacent pair of vectors and check they all share the same
-        // sign
-        double normal = alignZero(vectors.get(vSize - 1).crossProduct(vectors.get(0)).dotProduct(v));
-        if (isZero(normal))
-            return false;
-        boolean sign = normal > 0;
-        for (int i = 0; i < vSize - 1; i++) {
-            normal = alignZero(vectors.get(i).crossProduct(vectors.get(i + 1)).dotProduct(v));
-            if ((normal > 0) ^ sign || isZero(normal))
-                return false;
+
+           GeoPoint checkPoint=intersections.get(0);
+        List<Vector> result=new LinkedList<>();
+        Point last=vertices.get(size-1);
+        //we will use the method of ni=(pi-pi-1)x(pi-1-Pinter) to check if the point is inside the polygon
+        try{
+           for(Point p:vertices){//we will add all of the vectors to the list
+              result.add(p.subtract(last).crossProduct(last.subtract(checkPoint.point)));
+                last=p;
+           }
+           Vector lastVec=result.getLast();
+              for(Vector v:result){//we will check if the vectors are in the same direction
+                  if(v.dotProduct(lastVec)<=0){
+                  return null;
+                  }
+                  lastVec=v;
+              }
         }
-        return true;
-    }
+        //if the point is on the edge of the polygon
+        catch (IllegalArgumentException e){
+            return null;
+        }
+        return List.of(new GeoPoint(this,checkPoint.point));
+   }
 
    @Override
    public Vector getNormal(Point point) { return plane.getNormal(); }
+
+    @Override
+    public int[][] calcBoundary() {
+        double minX = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        double minZ = Double.POSITIVE_INFINITY;
+        double maxZ = Double.NEGATIVE_INFINITY;
+        double x;
+        double y;
+        double z;
+        for (var point : vertices) {
+            x = point.getX();
+            y = point.getY();
+            z = point.getZ();
+            if (x < minX)
+                minX = x;
+            if (x > maxX)
+                maxX = x;
+            if (y < minY)
+                minY = y;
+            if (y > maxY)
+                maxY = y;
+            if (z < minZ)
+                minZ = z;
+            if (z > maxZ)
+                maxZ = z;
+        }
+
+        return new int[][]{{(int) Math.floor(minX), (int) Math.ceil(maxX)},
+                {(int) Math.floor(minY), (int) Math.ceil(maxY)},
+                {(int) Math.floor(minZ), (int) Math.ceil(maxZ)}};
+    }
+
 
 }

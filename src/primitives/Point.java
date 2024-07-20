@@ -85,18 +85,31 @@ public class Point {
         return "" + xyz;
     }
 
+    /**
+     * Getter for the x coordinate
+     *
+     * @return the x coordinate
+     */
     public double getX() {
         return xyz.d1;
     }
 
+    /**
+     * Getter for the y coordinate
+     *
+     * @return the y coordinate
+     */
     public double getY() {
         return xyz.d2;
     }
 
+    /**
+     * Getter for the z coordinate
+     *
+     * @return the z coordinate
+     */
     public double getZ() {
         return xyz.d3;
     }
-
-
 }
 
