@@ -1570,7 +1570,7 @@ public class TeapotTest {
 		);
 		scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
 		scene.setResolution(10);
-		camera.setRayTracer(new RayTracerRegular(scene)).build().renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
+		camera.setRayTracer(new SimpleRayTracer(scene)).build().renderImage().printGrid(50, new Color(YELLOW)).writeToImage();
 	}
 
 }

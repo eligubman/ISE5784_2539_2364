@@ -181,7 +181,7 @@ public class ReflectionRefractionTests {
 
         scene.lights.add(new PointLight(new Color(255, 255, 255), new Point(200, 200, -200)));
         scene.lights.add(new PointLight(new Color(255, 255, 255), new Point(-200, -200, 200)));
-
+    //    scene.setResolution(1);
         cameraBuilder.setLocation(new Point(0, -600, 0)).setDirection(new Vector(0, 1, 0), new Vector(0, 0, 1)).
                 setRayTracer(new SimpleRayTracer(scene)).setVpSize(150, 150).setVpDistance(100)
                 .setImageWriter(new ImageWriter("take104", 1000, 1000)).build().renderImage().writeToImage();

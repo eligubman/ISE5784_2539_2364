@@ -285,7 +285,57 @@ public class Camera implements Cloneable {
             this.camera.printInterval = interval;
             return this;
         }
+        /**
+         * Given double theta, rotate the camera's up and right vectors by theta degrees
+         *
+         * @param theta the angle of rotation in degrees clockwise
+         * @return the rotated camera.
+         */
+        public Builder turnCamera(double theta) {
+            if (theta == 0) return this; //there is nothing to turn
+            this.camera.up = this.camera.up.rotateVector(this.camera.to, theta);
+            this.camera.right = this.camera.right.rotateVector(this.camera.to, theta);
+            return this;
+        }
 
+        /**
+         * Moves the camera to a certain location to point to a single point
+         *
+         * @param from the camera's new location
+         * @param to   the point the camera points to
+         * @return the moved camera
+         */
+        public Builder moveCamera(Point from, Point to) {
+            Vector vec;
+            try {
+                vec = to.subtract(from);
+            } catch (IllegalArgumentException ignore) {
+                throw new IllegalArgumentException("The camera cannot point at its starting location");
+            }
+            this.camera.location = from;
+            this.camera.to = vec.normalize();
+            //in order to determine Vup, we will find the intersection vector of two planes, the plane that Vto is represented
+            //as its normal, and the plane that includes the Y axis and the Vto vector (as demanded in the instructions).
+
+            //if the Vto is already on the Y axis, we will use the Z axis instead
+            if (this.camera.to.equals(Vector.Y) || this.camera.to.equals(Vector.Y.scale(-1))) {
+                this.camera.up = ((this.camera.to).crossProduct(Vector.Z)).crossProduct(this.camera.to).normalize();
+            } else {
+                this.camera.up = (this.camera.to.crossProduct(Vector.Y)).crossProduct(this.camera.to).normalize();
+            }
+            this.camera.right = this.camera.to.crossProduct(this.camera.up ).normalize();
+            return this;
+        }
+
+        /**
+         * flips the picture to left right axis
+         * @return the object itself
+         */
+        public Builder flipCamera()
+        {
+            this.camera.right=this.camera.right.scale(-1);
+            return this;
+        }
 
         /**
          * Build the camera

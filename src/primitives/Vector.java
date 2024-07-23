@@ -1,10 +1,24 @@
 package primitives;
 
+import static java.lang.Math.*;
+import static primitives.Util.alignZero;
+
 /**
  * Vector class represents a vector in 3D Cartesian coordinate
  * system
  */
 public class Vector extends  Point {
+
+    /**
+     * y vector
+     */
+    public static final Vector Y=new Vector(0,1,0);
+    /**
+     * z vector
+     */
+    public static final Vector Z=new Vector(0,0,1);
+    /**
+
     /**
      * Constructor for Vector class receiving 3 coordinates
      * @param x coordinate on the x-axis
@@ -110,5 +124,32 @@ public class Vector extends  Point {
             return new Vector(1, 0, 0);
 
         return new Vector(this.xyz.d2, -this.xyz.d1, 0).normalize();
+    }
+
+
+    /**
+     * Given a vector and an angle, rotate the vector about the given axis by the given angle
+     *
+     * @param axis  The axis of rotation.
+     * @param theta the angle of rotation in degrees
+     * @return A rotated new vector.
+     */
+    public Vector rotateVector(Vector axis, double theta) {
+        double x = xyz.d1;
+        double y = xyz.d2;
+        double z = xyz.d3;
+        double u = axis.getX();
+        double v = axis.getY();
+        double w = axis.getZ();
+        double v1 = u * x + v * y + w * z;
+        double thetaRad = toRadians(theta);
+        double thetaCos = cos(thetaRad);
+        double thetaSin = sin(thetaRad);
+        double diff = 1d - thetaCos;
+        double xPrime = u * v1 * diff + x * thetaCos + (-w * y + v * z) * thetaSin;
+        double yPrime = v * v1 * diff + y * thetaCos + (w * x - u * z) * thetaSin;
+        double zPrime = w * v1 * diff + z * thetaCos + (-v * x + u * y) * thetaSin;
+
+        return new Vector(alignZero(xPrime), alignZero(yPrime), alignZero(zPrime));
     }
 }

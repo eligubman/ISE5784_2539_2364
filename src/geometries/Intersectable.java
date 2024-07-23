@@ -84,6 +84,11 @@ public abstract class Intersectable {
         double xEdgeVoxel=scene.getXEdgeVoxel();
         double yEdgeVoxel=scene.getYEdgeVoxel();
         double zEdgeVoxel=scene.getZEdgeVoxel();
+
+        if(this.boundary==null){
+            return indexes;
+        }
+
         int xMinIndex = (int) ((this.boundary[0][0] - scene.geometries.boundary[0][0]) / xEdgeVoxel - 0.01);
         int xMaxIndex = (int) ((this.boundary[0][1] - scene.geometries.boundary[0][0]) / xEdgeVoxel - 0.01);
         int yMinIndex = (int) ((this.boundary[1][0] - scene.geometries.boundary[1][0]) / yEdgeVoxel - 0.01);
