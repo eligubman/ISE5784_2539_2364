@@ -10,6 +10,18 @@ import static primitives.Util.isZero;
  * @author Dan Zilberstein
  */
 public class Double3 {
+   public double getD1() {
+      return d1;
+   }
+
+   public double getD3() {
+      return d3;
+   }
+
+   public double getD2() {
+      return d2;
+   }
+
    /** First number */
    final double                d1;
    /** Second number */
